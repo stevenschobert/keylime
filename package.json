@@ -1,0 +1,24 @@
+{
+  "name": "keylime",
+  "version": "0.0.0",
+  "description": "Delicious object modeling in JavaScript",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js lib/** test/** && ./node_modules/.bin/mocha -R spec test/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ovenbits/keylime.git"
+  },
+  "author": "Steven Schobert <steven.schobert@ovenbits.com>",
+  "license": "none",
+  "bugs": {
+    "url": "https://github.com/ovenbits/keylime/issues"
+  },
+  "homepage": "https://github.com/ovenbits/keylime",
+  "devDependencies": {
+    "jshint-stylish": "^0.4.0",
+    "mocha": "^1.21.0",
+    "jshint": "^2.5.2"
+  }
+}

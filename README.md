@@ -1,4 +1,4 @@
-keylime
+Keylime
 =======
 
-Delicious object modeling in JavaScript.
+> Delicious object modeling in JavaScript
