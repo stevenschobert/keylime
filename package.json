@@ -20,5 +20,9 @@
     "jshint-stylish": "^0.4.0",
     "mocha": "^1.21.0",
     "jshint": "^2.5.2"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "assert": "^1.1.1"
   }
 }
