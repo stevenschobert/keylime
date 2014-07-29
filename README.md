@@ -9,14 +9,14 @@ var keylime = require('keylime'),
 
 Post
   .attr('title')
-  .attr('date')
+  .attr('date', function() { return new Date(); })
   .attr('draft', false);
 
 Post.prototype.isDraft = function() {
   return this.draft;
 };
 
-var post = new Post({ title: 'Hello World', date: new Date() });
+var post = new Post({ title: 'Hello World'});
 post.date; //=> Tue Jul 29 2014 16:18:10 GMT-0500 (CDT)
 post.isDraft(); //=> false;
 ```
@@ -32,7 +32,7 @@ Returns a new Keylime constructor function.
 Every Keylime constructor has several methods you can call (and chain together) to shape what kind
 of objects the constructor creates:
 
-#### .attr(name, [default])
+### .attr(name, [default])
 
 Add a new attribute (or property) to each instance the constructor returns.
 
@@ -49,7 +49,19 @@ joe.active; // => false
 larry.active; // => true
 ```
 
-#### .inherits(Model)
+#### Functions as Attributes
+
+You can also use functions to compute attribute values at the time of instantiation. Just return
+whatever value you want to assign to the attribute:
+
+```js
+var Post = keylime('Post').attr('date', function() {return new Date();}),
+    post = new Post();
+
+post.date; //=> Tue Jul 29 2014 16:18:10 GMT-0500 (CDT)
+```
+
+### .inherits(Model)
 
 Sets the constructors "parent". All the attributes on the parent constructor will be added when
 invoking the child constructor. Also, any methods on the parent's prototype will be shared as well.

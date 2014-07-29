@@ -45,6 +45,30 @@
           assert(_.has(curly, 'master_key'));
         });
 
+        it('should execute any functions in the blueprint', function() {
+          var ran = 0,
+              Test = keylime('Test').attr('custom', function() { ++ran; return true; }),
+              instance = new Test();
+          assert.equal(instance.custom, true);
+          assert.equal(ran, 1);
+        });
+
+        it('should execute any functions in the values parameter for attribute values', function() {
+          var ran = 0,
+              Test = keylime('Test').attr('custom'),
+              instance = new Test({ custom: function() { ++ran; return true; }});
+          assert.equal(instance.custom, true);
+          assert.equal(ran, 1);
+        });
+
+        it('should not execute any functions in the values parameters for invalid attributes', function() {
+          var ran = 0,
+              Test = keylime('Test'),
+              instance = new Test({ custom: function() { ++ran; return true; }});
+          assert(!_.has(instance, 'custom'));
+          assert.equal(ran, 0);
+        });
+
         describe('without the new keyword', function() {
           it('should throw an error', function() {
             var model = keylime('Test');
