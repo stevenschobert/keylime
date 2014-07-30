@@ -173,6 +173,24 @@
             });
           });
 
+          describe('with an array value argument', function() {
+            it('should create a copy of the array', function() {
+              var testArr = ['test'],
+                  Test = keylime('Test').attr('arr', testArr);
+              testArr.push('newtest');
+              assert(!_.contains(Test._blueprint.arr.value, 'newtest'));
+            });
+          });
+
+          describe('with a object value argument', function() {
+            it('should create a copy of the array', function() {
+              var testObj = {test: 'value'},
+                  Test = keylime('Test').attr('obj', testObj);
+              testObj.newtest = 'value';
+              assert(!_.has(Test._blueprint.obj.value, 'newtest'));
+            });
+          });
+
           describe('without a value argument', function() {
             it('should set the value to null', function() {
               var model = keylime('Test').attr('name');
