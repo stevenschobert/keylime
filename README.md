@@ -9,7 +9,7 @@ var keylime = require('keylime'),
 
 Post
   .attr('title')
-  .attr('date', function() { return new Date(); })
+  .attr('date', Date)
   .attr('draft', false);
 
 Post.prototype.isDraft = function() {
