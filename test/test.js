@@ -45,6 +45,46 @@
           assert(_.has(curly, 'master_key'));
         });
 
+        it('should copy any arrays in values parameter', function() {
+          var Test = keylime('Test').attr('arr'),
+              testArr = [],
+              instance1 = new Test({arr: testArr}),
+              instance2 = new Test({arr: testArr});
+          assert.deepEqual(instance1.arr, instance2.arr);
+          instance1.arr.push('test');
+          assert(!_.contains(instance2.arr, 'test'));
+        });
+
+        it('should copy any arrays in default values', function() {
+          var Test = keylime('Test').attr('arr', ['test']),
+              instance1 = new Test(),
+              instance2 = new Test();
+          assert.deepEqual(instance1.arr, ['test']);
+          assert.deepEqual(instance2.arr, ['test']);
+          instance1.arr.push('newtest');
+          assert(!_.contains(instance2.arr, 'newtest'));
+        });
+
+        it('should copy any objects in values parameter', function() {
+          var Test = keylime('Test').attr('obj'),
+              testObj = {},
+              instance1 = new Test({obj: testObj}),
+              instance2 = new Test({obj: testObj});
+          assert.deepEqual(instance1.obj, instance2.obj);
+          instance1.obj.test = 'test';
+          assert(!_.has(instance2.obj, 'test'));
+        });
+
+        it('should copy any objects in default values', function() {
+          var Test = keylime('Test').attr('obj', {test: 'value'}),
+              instance1 = new Test(),
+              instance2 = new Test();
+          assert.deepEqual(instance1.obj, {test: 'value'});
+          assert.deepEqual(instance2.obj, {test: 'value'});
+          instance1.obj.newtest = 'value';
+          assert(!_.has(instance2.obj, 'newtest'));
+        });
+
         it('should execute any functions in the blueprint', function() {
           var ran = 0,
               Test = keylime('Test').attr('custom', function() { ++ran; return true; }),
