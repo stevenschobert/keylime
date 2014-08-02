@@ -32,7 +32,7 @@ Returns a new Keylime constructor function.
 Every Keylime constructor has several methods you can call (and chain together) to shape what kind
 of objects the constructor creates:
 
-### .attr(name, [default])
+### .attr(name, default?)
 
 Add a new attribute (or property) to each instance the constructor returns.
 
@@ -83,3 +83,11 @@ luke.side; // => light
 luke.force; // => 100
 luke.isPowerful; // => true
 ```
+
+### .use(middleware)
+
+Invokes a "middleware" function with the current constructor as an argument. This allows you to
+group together constructor functionality in a seperate module or function.
+
+-  **middleware** `function` `required` The function to invoke. Recieves the current constructor as
+   the only argument.

@@ -250,6 +250,32 @@
         });
       });
 
+      describe('use method', function() {
+        describe('when invoked with a non-function', function() {
+          it('should throw an error', function() {
+            var test = keylime('Test');
+            assert.throws(test.use, /function.*use/i);
+          });
+        });
+
+        it('should return the same constructor', function() {
+          var Test = keylime('Test');
+          assert.equal(Test, Test.use(function() {}));
+        });
+
+        it('should be invoked immediately', function() {
+          var ran = 0,
+              Test = keylime('Test').use(function() { ++ran; });
+          assert.equal(ran, 1);
+        });
+
+        it('should receive the constructor as an argument', function() {
+          var Test = keylime('Test'),
+              ref;
+          Test.use(function(con) { ref = con; });
+          assert.equal(ref, Test);
+        });
+      });
     });
   });
 }());
