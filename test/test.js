@@ -276,6 +276,33 @@
           assert.equal(ref, Test);
         });
       });
+
+      describe('method function', function() {
+        describe('when invoked without any arguments', function() {
+          it('should throw an error', function() {
+            var test = keylime('Test');
+            assert.throws(test.method, /supply.*method/i);
+          });
+        });
+
+        it('should return the same constructor', function() {
+          var test = keylime('Test');
+          assert.equal(test, test.method('hello', function() {}));
+        });
+
+        it('should use the name argument to extend the prototype', function() {
+          var Test = keylime('Test');
+          Test.method('sayHello', function() {});
+          assert(_.has(Test.prototype, 'sayHello'));
+        });
+
+        it('should add the function argument to the prototype', function() {
+          var Test = keylime('Test'),
+              sayHello = function() {};
+          Test.method('sayHello', sayHello);
+          assert.equal(Test.prototype.sayHello, sayHello);
+        });
+      });
     });
   });
 }());

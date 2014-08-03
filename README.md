@@ -91,3 +91,24 @@ group together constructor functionality in a seperate module or function.
 
 -  **middleware** `function` `required` The function to invoke. Recieves the current constructor as
    the only argument.
+
+### .method(name, method)
+
+Convenience method for adding functions to the constructors prototype.
+
+- **name** `string` `required` The name to use when adding the function to the constructor's
+  prototype.
+- **method** `function` `required` The function to add to the constructor's prototype.
+
+```
+var Post = keylime('Test');
+
+Post
+  .attr('draft', false)
+  .method('isDraft', function isDraft() {
+    return this.draft;
+  });
+
+var post = new Post();
+post.isDraft(); // => false
+```
