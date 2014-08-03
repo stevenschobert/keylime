@@ -10,11 +10,10 @@ var keylime = require('keylime'),
 Post
   .attr('title')
   .attr('date', Date)
-  .attr('draft', false);
-
-Post.prototype.isDraft = function() {
-  return this.draft;
-};
+  .attr('draft', false)
+  .method('isDraft', function isDraft() {
+    return this.draft;
+  });
 
 var post = new Post({ title: 'Hello World'});
 post.date; //=> Tue Jul 29 2014 16:18:10 GMT-0500 (CDT)
