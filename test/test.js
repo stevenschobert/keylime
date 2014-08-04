@@ -304,6 +304,22 @@
         });
       });
 
+      describe('attrs method', function() {
+        describe('when invoked without any arguments', function() {
+          it('should return the entire blueprint', function() {
+            var Test = keylime('Test').attr('name');
+            assert.equal(Test.attrs(), Test._blueprint);
+          });
+        });
+
+        describe('when invoked with a name argument', function() {
+          it('should return just the single attribute', function() {
+            var Test = keylime('Test').attr('name');
+            assert.equal(Test.attrs('name'), Test._blueprint.name);
+          });
+        });
+      });
+
       describe('attrHelper method', function() {
         describe('when invoked without any arguments', function() {
           it('should throw an error', function() {

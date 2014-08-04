@@ -121,3 +121,23 @@ as an argument, as well as any additional arguments passed to the helper.
 - **name** `string` `required` The name to use when adding the helper to the constructor.
 - **helper** `function` `required` The function to call when the helper is invoked. Recieves the
   last-added attribute as the first argument.
+
+### .attrs(name?)
+
+> Unlike all the other methods, this one is not chainable, as it returns a value.
+
+Gets one or all of the attributes from the constructor.
+
+- **name** `string` `optional` The name of the attribute to fetch. If not given, all attributes will
+  be returned.
+
+```js
+var Lightsaber = keylime('Lightsaber');
+
+Lightsaber
+  .attr('color')
+  .attr('power', 100);
+
+Lightsaber.attrs();         // => { color: { value: null }, power: { value: 100 } }
+Lightsaber.attrs('power');  // => { value: 100 }
+```
