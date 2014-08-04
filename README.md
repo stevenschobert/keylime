@@ -100,7 +100,7 @@ Adds a named method to the constructors prototype chain.
 - **method** `function` `required` The function to add to the constructor's prototype. The `this`
   context in the function represents an instance of the constructor.
 
-```
+```js
 var Post = keylime('Test');
 
 Post
