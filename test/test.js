@@ -320,6 +320,54 @@
         });
       });
 
+      describe('init method', function() {
+        describe('when invoked without any arguments', function() {
+          it('should throw an error', function() {
+            var Test = keylime('Test');
+            assert.throws(Test.init, /supply.*init/);
+          });
+        });
+
+        it('should return the same constructor', function() {
+          var Test = keylime('Test');
+          assert.equal(Test, Test.init(function() {}));
+        });
+
+        it('should not run the function right away', function() {
+          var Test = keylime('Test'),
+              ran = 0;
+          Test.init(function() { ++ran; });
+          assert.equal(ran, 0);
+        });
+
+        it('should run the function when creating instances', function() {
+          var Test = keylime('Test'),
+              ran = 0;
+          Test.init(function() { ++ran; });
+          new Test();
+          assert.equal(ran, 1);
+        });
+
+        it('should stack up multiple init handlers', function() {
+          var Test = keylime('Test'),
+              ran = 0,
+              handler1 = function() { ++ran; },
+              handler2 = function() { ++ran; };
+          Test.init(handler1).init(handler2);
+          new Test();
+          assert.equal(ran, 2);
+        });
+
+        it('should receive the instance as an argument', function() {
+          var Test = keylime('Test'),
+              catcher,
+              instance;
+          Test.init(function(instance) { catcher = instance; });
+          instance = new Test();
+          assert.equal(catcher, instance);
+        });
+      });
+
       describe('attrHelper method', function() {
         describe('when invoked without any arguments', function() {
           it('should throw an error', function() {

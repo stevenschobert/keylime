@@ -122,6 +122,27 @@ as an argument, as well as any additional arguments passed to the helper.
 - **helper** `function` `required` The function to call when the helper is invoked. Recieves the
   last-added attribute as the first argument.
 
+### .init(handler)
+
+Registers a new handler to be called whenever new instances are created.
+
+- **handler** `function` `required` The handler to register. Receives the instance as an argument.
+
+```js
+var Astroid = keylime('Astroid');
+
+Astroid
+  .attr('size', 'medium')
+  .init(function(astroid) {
+    console.log('New astroid created: ', astroid);
+  });
+
+new Astroid();
+// => New astroid created: { size: 'medium' }
+new Astroid({size: 'mega'});
+// => New astroid created: { size: 'mega' }
+```
+
 ### .attrs(name?)
 
 > Unlike all the other methods, this one is not chainable, as it returns a value.
