@@ -83,14 +83,6 @@ luke.force; // => 100
 luke.isPowerful; // => true
 ```
 
-### .use(middleware)
-
-Invokes a "middleware" function with the current constructor as an argument. This allows you to
-group together constructor functionality in a seperate module or function.
-
--  **middleware** `function` `required` The function to invoke. Recieves the current constructor as
-   the only argument.
-
 ### .method(name, method)
 
 Adds a named method to the constructors prototype chain.
@@ -112,6 +104,14 @@ Post
 var post = new Post();
 post.isDraft(); // => false
 ```
+
+### .use(middleware)
+
+Invokes a "middleware" function with the current constructor as an argument. This allows you to
+group together constructor functionality in a seperate module or function.
+
+-  **middleware** `function` `required` The function to invoke. Recieves the current constructor as
+   the only argument.
 
 ### .attrHelper(name, helper)
 
