@@ -93,11 +93,12 @@ group together constructor functionality in a seperate module or function.
 
 ### .method(name, method)
 
-Convenience method for adding functions to the constructors prototype.
+Adds a named method to the constructors prototype chain.
 
 - **name** `string` `required` The name to use when adding the function to the constructor's
   prototype.
-- **method** `function` `required` The function to add to the constructor's prototype.
+- **method** `function` `required` The function to add to the constructor's prototype. The `this`
+  context in the function represents an instance of the constructor.
 
 ```
 var Post = keylime('Test');
