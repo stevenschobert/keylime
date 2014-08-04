@@ -112,3 +112,12 @@ Post
 var post = new Post();
 post.isDraft(); // => false
 ```
+
+### .attrHelper(name, helper)
+
+Adds a new attribute helper to the constructor. The helper function will recieve the last-added attribute
+as an argument, as well as any additional arguments passed to the helper.
+
+- **name** `string` `required` The name to use when adding the helper to the constructor.
+- **helper** `function` `required` The function to call when the helper is invoked. Recieves the
+  last-added attribute as the first argument.
