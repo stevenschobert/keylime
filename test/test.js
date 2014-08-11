@@ -110,9 +110,11 @@
         });
 
         describe('without the new keyword', function() {
-          it('should throw an error', function() {
-            var model = keylime('Test');
-            assert.throws(model, /new/i);
+          it('should still return an instance', function() {
+            var model = keylime('Test').attr('name', 'test'),
+                instance = model({name: 'true2'});
+            assert(instance instanceof model);
+            assert.equal(instance.name, 'true2');
           });
         });
 
