@@ -126,15 +126,16 @@ as an argument, as well as any additional arguments passed to the helper.
 
 Registers a new handler to be called whenever new instances are created.
 
-- **handler** `function` `required` The handler to register. Receives the instance as an argument.
+- **handler** `function` `required` The handler to register. The `this` context is bound to the
+  instance being created. Also receives any arguments that were passed to the constructor.
 
 ```js
 var Astroid = keylime('Astroid');
 
 Astroid
   .attr('size', 'medium')
-  .init(function(astroid) {
-    console.log('New astroid created: ', astroid);
+  .init(function() {
+    console.log('New astroid created: ', this);
   });
 
 new Astroid();

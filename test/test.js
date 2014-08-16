@@ -360,13 +360,21 @@
           assert.equal(ran, 2);
         });
 
-        it('should receive the instance as an argument', function() {
+        it('should recieve the arguments passed to the constructor', function() {
           var Test = keylime('Test'),
-              catcher,
+              arg;
+          Test.init(function(one) { arg = one; });
+          new Test('test');
+          assert.equal(arg, 'test');
+        });
+
+        it('should use the instance as context', function() {
+          var Test = keylime('Test'),
+              context,
               instance;
-          Test.init(function(instance) { catcher = instance; });
+          Test.init(function() { context = this; });
           instance = new Test();
-          assert.equal(catcher, instance);
+          assert.equal(context, instance);
         });
       });
 
