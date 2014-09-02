@@ -1,7 +1,7 @@
 Keylime
 =======
 
-> Delicious object modeling in JavaScript
+A delicious way to write prototypal classes in JavaScript.
 
 ```js
 var keylime = require('keylime'),
