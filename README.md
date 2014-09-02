@@ -9,15 +9,15 @@ var keylime = require('keylime'),
 
 Post
   .attr('title')
-  .attr('date', Date)
+  .attr('date', Date.now)
   .attr('draft', false)
   .method('isDraft', function isDraft() {
     return this.draft;
   });
 
 var post = new Post({ title: 'Hello World'});
-post.date; //=> Tue Jul 29 2014 16:18:10 GMT-0500 (CDT)
-post.isDraft(); //=> false;
+post.date; //=> 1409683731413
+post.isDraft(); //=> false
 ```
 
 ## API
