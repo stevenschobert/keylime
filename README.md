@@ -3,6 +3,11 @@ Keylime
 
 A delicious way to write prototypal classes in JavaScript.
 
+- Clean, chainable syntax.
+- Define "attributes" with default values.
+- Easily inherit other classes.
+- Use middleware as "mixins" to decorate classes.
+
 ```js
 var keylime = require('keylime'),
     Post = keylime('Post');
