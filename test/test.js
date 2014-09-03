@@ -147,6 +147,21 @@
         });
       });
 
+      describe('create method', function() {
+        it('should return a new instance', function() {
+          var User = keylime('User'),
+              model = User.create();
+          assert(model instanceof User);
+        });
+
+        it('should apply all the same arguments as calling \'new\'', function() {
+          var User = keylime('User').attr('name'),
+              model1 = User.create({name: 'test'}),
+              model2 = new User({name: 'test'});
+          assert.deepEqual(model1, model2);
+        });
+      });
+
       describe('attr method', function() {
         it('should add a key to the blueprint property', function() {
           var model = keylime('Test').attr('name');

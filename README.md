@@ -151,7 +151,7 @@ new Astroid({size: 'mega'});
 
 ### .attrs(name?)
 
-> Unlike all the other methods, this one is not chainable, as it returns a value.
+> Non-chainable method.
 
 Gets one or all of the attributes from the constructor.
 
@@ -167,4 +167,23 @@ Lightsaber
 
 Lightsaber.attrs();         // => { color: { value: null }, power: { value: 100 } }
 Lightsaber.attrs('power');  // => { value: 100 }
+```
+
+### .create(attrs?)
+
+> Non-chainanble method.
+
+Creates a new instance of the class. Alternative to creating instances with the `new` keyword.
+
+- **attrs** `object` `optional` Attributes to set on the instance. Does the same thing as creating
+  an instance with `new`.
+
+```js
+var Lightsaber = keylime('Lightsaber');
+
+Lightsaber
+  .attr('color')
+  .attr('power', 100);
+
+Lightsaber.create({color: 'red'});
 ```
