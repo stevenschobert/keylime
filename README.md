@@ -25,6 +25,39 @@ post.date; //=> 1409683731413
 post.isDraft(); //=> false
 ```
 
+## Download
+
+- **[Browser/AMD version](dist/keylime.min.js)** (~16.6kb minified)
+
+
+## Installation
+
+In the browser:
+
+```html
+<script src="keylime.min.js"></script>
+```
+
+Using npm:
+
+```sh
+npm install --save keylime
+```
+
+In Node.js:
+
+```js
+var keylime = require('keylime');
+```
+
+Using AMD/Require.js
+
+```js
+require(['keylime'], function(keylime) {
+  // ...
+});
+```
+
 ## API
 
 ### keylime(name)
