@@ -7,7 +7,7 @@ clean:
 	@echo 'clean task not implemented'
 
 build:
-	@echo 'build task not implemented'
+	@npm run build
 
 start:
 	@npm start
