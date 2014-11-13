@@ -14,6 +14,102 @@
       assert(_.isFunction(keylime('User')));
     });
 
+    describe('.registeredGlobals', function() {
+      var plugin = function() {};
+
+      before(function() {
+        keylime.registerGlobal('myplugin', plugin);
+      });
+
+      after(function() {
+        keylime.deregisterGlobal('myplugin');
+      });
+
+      it('should return a list of global plugins', function() {
+        assert.equal(keylime.registeredGlobals().myplugin, plugin);
+      });
+    });
+
+    describe('.deregisterGlobal', function() {
+      var count;
+      var plugin = function() {++count;};
+
+      describe('with a valid name', function() {
+        beforeEach(function() {
+          count = 0;
+        });
+
+        it('should return the function', function() {
+          keylime.registerGlobal('myplugin', plugin);
+          assert.equal(plugin, keylime.deregisterGlobal('myplugin'));
+        });
+
+        it('should not call `use` for that plugin on created classes', function() {
+          keylime.registerGlobal('myplugin', plugin);
+          keylime.deregisterGlobal('myplugin');
+          keylime('Post');
+          assert.equal(count, 0);
+        });
+      });
+
+      describe('with an in-valid name', function() {
+        it('should return false', function() {
+          assert(!keylime.deregisterGlobal('nothing'));
+        });
+      });
+    });
+
+    describe('.registerGlobal', function() {
+      var count;
+      var customPlugin = function(Model) { Model.custom = function() {}; ++count; };
+      var pluginName = 'myplugin';
+
+      beforeEach(function() {
+        count = 0;
+      });
+
+      afterEach(function() {
+        keylime.deregisterGlobal(pluginName);
+      });
+
+      describe('without a name', function() {
+        it('should throw an error', function() {
+          assert.throws(function() { keylime.registerGlobal(true); }, /name.*register/i);
+        });
+      });
+
+      describe('without a non-function value', function() {
+        it('should throw an error', function() {
+          assert.throws(function() { keylime.registerGlobal(pluginName, true); }, /function.*register/i);
+        });
+      });
+
+      describe('with the same name', function() {
+        it('should not register the plugin again', function() {
+          keylime.registerGlobal(pluginName, customPlugin);
+          keylime.registerGlobal(pluginName, customPlugin);
+          keylime('Post');
+          assert.equal(count, 1);
+        });
+      });
+
+      describe('with a function parameter', function() {
+        it('should call `use` for every new class keylime creates', function() {
+          keylime('Model');
+          keylime.registerGlobal(pluginName, customPlugin);
+          keylime('Post');
+          keylime('Comment');
+          assert.equal(count, 2);
+        });
+
+        it('should be able to extend every new class created', function() {
+          assert(_.isUndefined(keylime('Model').custom));
+          keylime.registerGlobal(pluginName, customPlugin);
+          assert(_.isFunction(keylime('Post').custom));
+        });
+      });
+    });
+
     describe('returned constructor', function() {
       it('should be named according to the name parameter', function() {
         assert.equal(keylime('TestFunc').name, 'TestFunc');
