@@ -27,7 +27,7 @@ post.isDraft(); //=> false
 
 ## Download
 
-- **[Browser/AMD version](dist/keylime.min.js)** (~16.6kb minified)
+- **[Browser/AMD version](dist/keylime.min.js)** (~17.6kb minified)
 
 
 ## Installation
