@@ -220,3 +220,25 @@ Lightsaber
 
 Lightsaber.create({color: 'red'});
 ```
+
+### keylime.registerGlobal(name, plugin)
+
+Registers a plugin function globally.
+
+- **name** `string` `required` The name of the plugin to register.
+- **plugin** `function` `required` The plugin function to register.
+
+Every Keylime constructor created after the plugin has been registered will call `.use(plugin)`
+automatically for you.
+
+### keylime.deregisterGlobal(name)
+
+De-registers a plugin function globally.
+
+- **name** `string` `required` The name of the plugin to de-register.
+
+### keylime.registeredGlobals(name)
+
+Returns an object of globally registered plugins.
+
+- **name** `string` `optional` The name of a specific plugin to lookup.
