@@ -398,6 +398,13 @@
             Test.use(function(con) { ref = con; });
             assert.equal(ref, Test);
           });
+
+          it('should receive additional arguments', function() {
+            var Test = keylime('Test'),
+                ref;
+            Test.use(function(con, two) { ref = two; }, 2);
+            assert.equal(ref, 2);
+          });
         });
 
         describe('with a string argument', function() {
@@ -413,6 +420,15 @@
               keylime.registerPlugin('testplugin', plugin);
               var Test = keylime('Test').use('testplugin');
               assert.equal(count, 1);
+              keylime.unregisterPlugin('testplugin');
+            });
+
+            it('should receive additional arguments', function() {
+              var Test = keylime('Test'),
+                  ref;
+              keylime.registerPlugin('testplugin', function(model, two) { ref = two; });
+              Test.use('testplugin', 2);
+              assert.equal(ref, 2);
               keylime.unregisterPlugin('testplugin');
             });
           });
