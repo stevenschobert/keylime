@@ -166,10 +166,12 @@ var post = Post.fromJson({long_title: 'hello world'});
 post.longTitle; // => 'hello world'
 ```
 
-### .use(middleware)
+### .use(middleware, args...)
 
 Invokes a "middleware" function with the current constructor as an argument. This allows you to
 group together constructor functionality in a seperate module or function.
+
+Additional arguments are passed along to the middleware function.
 
 -  **middleware** `function || string` `required` The function to invoke. Recieves the current constructor as
    the only argument. If a string is passed, Keylime will look for a [pre-registered plugin](#keylimeregisterpluginname-plugin).
