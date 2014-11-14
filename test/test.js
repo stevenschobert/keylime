@@ -560,6 +560,13 @@
             assert.equal(ran, 1);
           });
 
+          it('should have it\'s context set to the constructor', function() {
+            var context,
+                Test = keylime('Test').attrHelper('helper', function() { context = this; });
+            Test.attr('name').helper();
+            assert.equal(context, Test);
+          });
+
           it('should pass the last attribute as the first argument', function() {
             var Test = keylime('Test').attr('name'),
                 attr = Test._blueprint.name,
@@ -607,6 +614,13 @@
           it('should return the same constructor', function() {
             var Test = keylime('Test').classHelper('helper', function() {});
             assert.equal(Test, Test.attr('name').helper());
+          });
+
+          it('should have it\'s context set to the constructor', function() {
+            var context,
+                Test = keylime('Test').classHelper('helper', function() { context = this; });
+            Test.attr('name').helper('woot');
+            assert.equal(context, Test);
           });
 
           it('should run the function argument', function() {
