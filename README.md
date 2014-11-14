@@ -148,8 +148,8 @@ post.isDraft(); // => false
 Invokes a "middleware" function with the current constructor as an argument. This allows you to
 group together constructor functionality in a seperate module or function.
 
--  **middleware** `function` `required` The function to invoke. Recieves the current constructor as
-   the only argument.
+-  **middleware** `function || string` `required` The function to invoke. Recieves the current constructor as
+   the only argument. If a string is passed, Keylime will look for a [pre-registered plugin](#keylimeregisterpluginname-plugin).
 
 ### .attrHelper(name, helper)
 
@@ -221,23 +221,22 @@ Lightsaber
 Lightsaber.create({color: 'red'});
 ```
 
-### keylime.registerGlobal(name, plugin)
+### keylime.registerPlugin(name, plugin)
 
 Registers a plugin function globally.
 
 - **name** `string` `required` The name of the plugin to register.
 - **plugin** `function` `required` The plugin function to register.
 
-Every Keylime constructor created after the plugin has been registered will call `.use(plugin)`
-automatically for you.
+Globally registered plugins are available for use via `.use(name)` after registering.
 
-### keylime.deregisterGlobal(name)
+### keylime.unregisterPlugin(name)
 
 De-registers a plugin function globally.
 
 - **name** `string` `required` The name of the plugin to de-register.
 
-### keylime.registeredGlobals(name)
+### keylime.plugins(name?)
 
 Returns an object of globally registered plugins.
 
