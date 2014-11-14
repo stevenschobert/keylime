@@ -1,6 +1,6 @@
 {
   "name": "keylime",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A delicious way to write prototypal classes in JavaScript.",
   "main": "lib/index.js",
   "scripts": {
