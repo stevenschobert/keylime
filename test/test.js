@@ -14,23 +14,23 @@
       assert(_.isFunction(keylime('User')));
     });
 
-    describe('.registeredGlobals', function() {
+    describe('plugins', function() {
       var plugin = function() {};
 
       before(function() {
-        keylime.registerGlobal('myplugin', plugin);
+        keylime.registerPlugin('myplugin', plugin);
       });
 
       after(function() {
-        keylime.deregisterGlobal('myplugin');
+        keylime.unregisterPlugin('myplugin');
       });
 
       it('should return a list of global plugins', function() {
-        assert.equal(keylime.registeredGlobals().myplugin, plugin);
+        assert.equal(keylime.plugins('myplugin'), plugin);
       });
     });
 
-    describe('.deregisterGlobal', function() {
+    describe('unregisterPlugin', function() {
       var count;
       var plugin = function() {++count;};
 
@@ -40,13 +40,13 @@
         });
 
         it('should return the function', function() {
-          keylime.registerGlobal('myplugin', plugin);
-          assert.equal(plugin, keylime.deregisterGlobal('myplugin'));
+          keylime.registerPlugin('myplugin', plugin);
+          assert.equal(plugin, keylime.unregisterPlugin('myplugin'));
         });
 
         it('should not call `use` for that plugin on created classes', function() {
-          keylime.registerGlobal('myplugin', plugin);
-          keylime.deregisterGlobal('myplugin');
+          keylime.registerPlugin('myplugin', plugin);
+          keylime.unregisterPlugin('myplugin');
           keylime('Post');
           assert.equal(count, 0);
         });
@@ -54,12 +54,12 @@
 
       describe('with an in-valid name', function() {
         it('should return false', function() {
-          assert(!keylime.deregisterGlobal('nothing'));
+          assert(!keylime.unregisterPlugin('nothing'));
         });
       });
     });
 
-    describe('.registerGlobal', function() {
+    describe('registerPlugin', function() {
       var count;
       var customPlugin = function(Model) { Model.custom = function() {}; ++count; };
       var pluginName = 'myplugin';
@@ -69,25 +69,25 @@
       });
 
       afterEach(function() {
-        keylime.deregisterGlobal(pluginName);
+        keylime.unregisterPlugin(pluginName);
       });
 
       describe('without a name', function() {
         it('should throw an error', function() {
-          assert.throws(function() { keylime.registerGlobal(true); }, /name.*register/i);
+          assert.throws(function() { keylime.registerPlugin(true); }, /name.*register/i);
         });
       });
 
       describe('without a non-function value', function() {
         it('should throw an error', function() {
-          assert.throws(function() { keylime.registerGlobal(pluginName, true); }, /function.*register/i);
+          assert.throws(function() { keylime.registerPlugin(pluginName, true); }, /function.*register/i);
         });
       });
 
       describe('with the same name', function() {
         it('should not register the plugin again', function() {
-          keylime.registerGlobal(pluginName, customPlugin);
-          keylime.registerGlobal(pluginName, customPlugin);
+          keylime.registerPlugin(pluginName, customPlugin);
+          keylime.registerPlugin(pluginName, customPlugin);
           keylime('Post');
           assert.equal(count, 1);
         });
@@ -96,7 +96,7 @@
       describe('with a function parameter', function() {
         it('should call `use` for every new class keylime creates', function() {
           keylime('Model');
-          keylime.registerGlobal(pluginName, customPlugin);
+          keylime.registerPlugin(pluginName, customPlugin);
           keylime('Post');
           keylime('Comment');
           assert.equal(count, 2);
@@ -104,7 +104,7 @@
 
         it('should be able to extend every new class created', function() {
           assert(_.isUndefined(keylime('Model').custom));
-          keylime.registerGlobal(pluginName, customPlugin);
+          keylime.registerPlugin(pluginName, customPlugin);
           assert(_.isFunction(keylime('Post').custom));
         });
       });
