@@ -143,6 +143,29 @@ var post = new Post();
 post.isDraft(); // => false
 ```
 
+### .classMethod(name, method)
+
+Adds a named "class-level" method to the constructor.
+
+- **name** `string` `required` The name to use when adding the function to the constructor.
+- **method** `function` `required` The function to add to the constructor's prototype. The `this`
+  context in the function represents the constructor itself.
+
+```js
+var Post = keylime('Test');
+
+Post
+  .attr('longTitle')
+  .classMethod('fromJson', function fromJson(json) {
+    return this.create({
+      longTitle: json.long_title
+    });
+  });
+
+var post = Post.fromJson({long_title: 'hello world'});
+post.longTitle; // => 'hello world'
+```
+
 ### .use(middleware)
 
 Invokes a "middleware" function with the current constructor as an argument. This allows you to
@@ -159,6 +182,14 @@ as an argument, as well as any additional arguments passed to the helper.
 - **name** `string` `required` The name to use when adding the helper to the constructor.
 - **helper** `function` `required` The function to call when the helper is invoked. Recieves the
   last-added attribute as the first argument.
+
+### .classHelper(name, helper)
+
+Adds a new class helper to the constructor. This is essential syntax sugar for creating new
+chain-able methods on a constructor. Useful for plugins.
+
+- **name** `string` `required` The name to use when adding the helper to the constructor.
+- **helper** `function` `required` The function to call when the helper is invoked.
 
 ### .init(handler)
 
@@ -180,6 +211,28 @@ new Astroid();
 // => New astroid created: { size: 'medium' }
 new Astroid({size: 'mega'});
 // => New astroid created: { size: 'mega' }
+```
+
+### .attrInit(handler)
+
+Registers a new handler to be called for each attribute when a new instance is created.
+
+- **handler** `function` `required` The handler to register. The `this` context is bound to the
+  instance being created. Receives the attribute name, value, and attribute "model"
+
+```js
+var Astroid = keylime('Astroid');
+
+Astroid
+  .attr('size', 'medium')
+  .attrInit(function(name, value, attr) {
+    console.log('Astroid '+ name +': '+ value);
+  });
+
+new Astroid();
+// => Astroid size: medium
+new Astroid({size: 'mega'});
+// => Astroid size: mega
 ```
 
 ### .attrs(name?)
