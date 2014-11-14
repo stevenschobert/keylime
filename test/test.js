@@ -417,6 +417,33 @@
         });
       });
 
+      describe('classMethod method', function() {
+        describe('when invoked without any arguments', function() {
+          it('should throw an error', function() {
+            var test = keylime('Test');
+            assert.throws(test.classMethod, /supply.*class.*method/i);
+          });
+        });
+
+        it('should return the same constructor', function() {
+          var test = keylime('Test');
+          assert.equal(test, test.classMethod('hello', function() {}));
+        });
+
+        it('should use the name argument to extend the constructor', function() {
+          var Test = keylime('Test');
+          Test.classMethod('sayHello', function() {});
+          assert(_.has(Test, 'sayHello'));
+        });
+
+        it('should add the function argument to the constructor', function() {
+          var Test = keylime('Test'),
+              sayHello = function() {};
+          Test.classMethod('sayHello', sayHello);
+          assert.equal(Test.sayHello, sayHello);
+        });
+      });
+
       describe('attrs method', function() {
         describe('when invoked without any arguments', function() {
           it('should return the entire blueprint', function() {
