@@ -576,6 +576,54 @@
           });
         });
       });
+
+      describe('classHelper function', function() {
+        describe('when invoked without any arguments', function() {
+          it('should throw an error', function() {
+            var Test = keylime('Test');
+            assert.throws(Test.classHelper, /supply.*helper/i);
+          });
+        });
+
+        it('should return the same constructor', function() {
+          var Test = keylime('Test');
+          assert.equal(Test, Test.classHelper('helper', function() {}));
+        });
+
+        it('should register a method on the constructor using the name parameter', function() {
+          var Test = keylime('Test').classHelper('helper', function() {});
+          assert(_.has(Test, 'helper'));
+          assert(_.isFunction(Test.helper));
+        });
+
+        it('should not invoke the function immediately', function() {
+          var Test = keylime('Test'),
+              ran = 0;
+          Test.classHelper('helper', function() { ++ran; });
+          assert.equal(ran, 0);
+        });
+
+        describe('the added function', function() {
+          it('should return the same constructor', function() {
+            var Test = keylime('Test').classHelper('helper', function() {});
+            assert.equal(Test, Test.attr('name').helper());
+          });
+
+          it('should run the function argument', function() {
+            var ran = 0,
+                Test = keylime('Test').classHelper('helper', function() { ++ran; });
+            Test.attr('name').helper();
+            assert.equal(ran, 1);
+          });
+
+          it('should pass arguments to the original function', function() {
+            var params,
+                Test = keylime('Test').classHelper('helper', function(value) { params = value; });
+            Test.attr('name').helper('woot');
+            assert.equal(params, 'woot');
+          });
+        });
+      });
     });
   });
 }());
