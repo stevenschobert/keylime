@@ -516,6 +516,79 @@
         });
       });
 
+      describe('attrInit method', function() {
+        describe('when invoked without any arguments', function() {
+          it('should throw an error', function() {
+            var Test = keylime('Test');
+            assert.throws(Test.attrInit, /supply.*attribute.*init/);
+          });
+        });
+
+        it('should return the same constructor', function() {
+          var Test = keylime('Test');
+          assert.equal(Test, Test.attrInit(function() {}));
+        });
+
+        it('should not run the function right away', function() {
+          var Test = keylime('Test'),
+              ran = 0;
+          Test.attrInit(function() { ++ran; });
+          assert.equal(ran, 0);
+        });
+
+        it('should run for every attribute when the instance is created', function() {
+          var Test = keylime('Test').attr('name').attr('other'),
+              ran = 0;
+          Test.attrInit(function() { ++ran; });
+          new Test();
+          assert.equal(ran, 2);
+        });
+
+        it('should stack up multiple init handlers', function() {
+          var Test = keylime('Test').attr('test'),
+              ran = 0,
+              handler1 = function() { ++ran; },
+              handler2 = function() { ++ran; };
+          Test.attrInit(handler1).attrInit(handler2);
+          new Test();
+          assert.equal(ran, 2);
+        });
+
+        it('should recieve the attribute name as the first argument', function() {
+          var Test = keylime('Test').attr('name'),
+              arg;
+          Test.attrInit(function(one) { arg = one; });
+          new Test();
+          assert.equal(arg, 'name');
+        });
+
+        it('should recieve the attribute value as the second argument', function() {
+          var Test = keylime('Test').attr('name'),
+              arg;
+          Test.attrInit(function(one, two) { arg = two; });
+          new Test({name: 'luke'});
+          assert.equal(arg, 'luke');
+        });
+
+        it('should recieve the attribute blueprint as the third argument', function() {
+          var Test = keylime('Test').attr('name'),
+              prop = Test._blueprint.name,
+              arg;
+          Test.attrInit(function(one, two, three) { arg = three; });
+          new Test();
+          assert.equal(arg, prop);
+        });
+
+        it('should use the instance as context', function() {
+          var Test = keylime('Test').attr('name'),
+              context,
+              instance;
+          Test.attrInit(function() { context = this; });
+          instance = new Test();
+          assert.equal(context, instance);
+        });
+      });
+
       describe('attrHelper method', function() {
         describe('when invoked without any arguments', function() {
           it('should throw an error', function() {
