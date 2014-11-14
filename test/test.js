@@ -44,11 +44,10 @@
           assert.equal(plugin, keylime.unregisterPlugin('myplugin'));
         });
 
-        it('should not call `use` for that plugin on created classes', function() {
+        it('should remove that plugin from available plugins when calling `use`', function() {
           keylime.registerPlugin('myplugin', plugin);
           keylime.unregisterPlugin('myplugin');
-          keylime('Post');
-          assert.equal(count, 0);
+          assert.throws(function() { keylime('Post').use('myplugin'); });
         });
       });
 
@@ -85,28 +84,38 @@
       });
 
       describe('with the same name', function() {
-        it('should not register the plugin again', function() {
+        it('should replace the plugin', function() {
+          var newplugin = function() {};
           keylime.registerPlugin(pluginName, customPlugin);
-          keylime.registerPlugin(pluginName, customPlugin);
-          keylime('Post');
-          assert.equal(count, 1);
+          keylime.registerPlugin(pluginName, newplugin);
+          assert.equal(keylime.plugins(pluginName), newplugin);
         });
       });
 
-      describe('with a function parameter', function() {
-        it('should call `use` for every new class keylime creates', function() {
-          keylime('Model');
-          keylime.registerPlugin(pluginName, customPlugin);
-          keylime('Post');
-          keylime('Comment');
-          assert.equal(count, 2);
-        });
+      it('should not invoke the plugin right away', function() {
+        keylime.registerPlugin(pluginName, customPlugin);
+        assert.equal(count, 0);
+        keylime.unregisterPlugin(pluginName, customPlugin);
+      });
 
-        it('should be able to extend every new class created', function() {
-          assert(_.isUndefined(keylime('Model').custom));
-          keylime.registerPlugin(pluginName, customPlugin);
-          assert(_.isFunction(keylime('Post').custom));
-        });
+      it('should not invoke the plugin if it is not `used`', function() {
+        keylime.registerPlugin(pluginName, customPlugin);
+        keylime('Post').attr('name');
+        assert.equal(count, 0);
+        keylime.unregisterPlugin(pluginName, customPlugin);
+      });
+
+      it('should make the plugin available for `use` with a string', function() {
+        keylime('Model');
+        keylime.registerPlugin(pluginName, customPlugin);
+        keylime('Post').use(pluginName);
+        assert.equal(count, 1);
+      });
+
+      it('should be able to extend every new class created', function() {
+        assert(_.isUndefined(keylime('Model').custom));
+        keylime.registerPlugin(pluginName, customPlugin);
+        assert(_.isFunction(keylime('Post').use(pluginName).custom));
       });
     });
 
@@ -364,7 +373,7 @@
       });
 
       describe('use method', function() {
-        describe('when invoked with a non-function', function() {
+        describe('when invoked with a non-function or string', function() {
           it('should throw an error', function() {
             var test = keylime('Test');
             assert.throws(test.use, /function.*use/i);
@@ -376,17 +385,43 @@
           assert.equal(Test, Test.use(function() {}));
         });
 
-        it('should be invoked immediately', function() {
-          var ran = 0,
-              Test = keylime('Test').use(function() { ++ran; });
-          assert.equal(ran, 1);
+        describe('with a function argument', function() {
+          it('should be invoked immediately', function() {
+            var ran = 0,
+                Test = keylime('Test').use(function() { ++ran; });
+            assert.equal(ran, 1);
+          });
+
+          it('should receive the constructor as an argument', function() {
+            var Test = keylime('Test'),
+                ref;
+            Test.use(function(con) { ref = con; });
+            assert.equal(ref, Test);
+          });
         });
 
-        it('should receive the constructor as an argument', function() {
-          var Test = keylime('Test'),
-              ref;
-          Test.use(function(con) { ref = con; });
-          assert.equal(ref, Test);
+        describe('with a string argument', function() {
+          describe('with a valid plugin name', function() {
+            var count;
+            var plugin = function() { ++count; };
+
+            beforeEach(function() {
+              count = 0;
+            });
+
+            it('should invoke the global plugin', function() {
+              keylime.registerPlugin('testplugin', plugin);
+              var Test = keylime('Test').use('testplugin');
+              assert.equal(count, 1);
+              keylime.unregisterPlugin('testplugin');
+            });
+          });
+
+          describe('with an in-valid plugin name', function() {
+            it('should throw an error', function() {
+              assert.throws(function() { keylime('Post').use('blah'); }, /valid.*plugin/i);
+            });
+          });
         });
       });
 
