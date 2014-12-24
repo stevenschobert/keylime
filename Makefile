@@ -15,4 +15,7 @@ start:
 test:
 	@npm test
 
-.PHONY: install clean build start test
+bench:
+	@npm run bench
+
+.PHONY: install clean build start test bench

@@ -2,10 +2,10 @@
   "name": "keylime",
   "version": "0.4.1",
   "description": "A delicious way to write prototypal classes in JavaScript.",
-  "main": "lib/index.js",
+  "main": "lib/keylime.js",
   "scripts": {
     "test": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js lib/** test/** && ./node_modules/.bin/mocha -R spec test/**",
-    "build": "node ./scripts/build.js"
+    "bench": "matcha ./benchmarks.js"
   },
   "repository": {
     "type": "git",
@@ -19,14 +19,11 @@
   "homepage": "https://github.com/ovenbits/keylime",
   "devDependencies": {
     "assert": "^1.1.1",
-    "exec-sync": "^0.1.6",
     "jshint": "^2.5.2",
     "jshint-stylish": "^0.4.0",
-    "lodash-cli": "^2.4.2",
     "mocha": "^1.21.0",
-    "uglify-js": "^2.4.15"
+    "lodash": "^2.4.1"
   },
   "dependencies": {
-    "lodash": "^2.4.1"
   }
 }
