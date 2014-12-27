@@ -5,7 +5,7 @@
   "main": "lib/keylime.js",
   "scripts": {
     "test": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js lib/** test/** && ./node_modules/.bin/mocha -R spec test/**",
-    "bench": "matcha ./benchmarks.js"
+    "bench": "./node_modules/.bin/matcha benchmarks.js"
   },
   "repository": {
     "type": "git",
@@ -21,9 +21,9 @@
     "assert": "^1.1.1",
     "jshint": "^2.5.2",
     "jshint-stylish": "^0.4.0",
-    "mocha": "^1.21.0",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "matcha": "^0.6.0",
+    "mocha": "^1.21.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
