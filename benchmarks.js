@@ -1,16 +1,6 @@
 var keylime = require('./');
 var _ = require('lodash');
 
-suite('creating instances with \'new\'', function() {
-  bench('keylime', function() {
-    new KeylimePost();
-  });
-
-  bench('plain constructor', function() {
-    new PlainPost();
-  });
-});
-
 var KeylimePost = keylime('KeylimePost');
   //.attr('title', '')
   //.attr('data', function createDate() {
@@ -48,4 +38,14 @@ function PlainPost(params) {
   //  }
   //}
 }
+
+suite('creating instances with \'new\'', function() {
+  bench('keylime', function() {
+    new KeylimePost();
+  });
+
+  bench('plain constructor', function() {
+    new PlainPost();
+  });
+});
 
