@@ -3,7 +3,6 @@
 
   var keylime = require('../');
   var assert = require('assert');
-  var _ = require('lodash');
 
   describe('keylime function', function() {
     it('should create a named function', function() {
@@ -54,6 +53,30 @@
 
     it('should have it\'s prototype set to Function.prototype', function() {
       assert.equal(keylime.core.KeylimeConstructor.prototype.__proto__, Function.prototype);
+    });
+
+    describe('#attr', function() {
+      var Lightsaber;
+
+      beforeEach(function() {
+        Lightsaber = keylime('Lightsaber');
+      });
+
+      it('should add a property to the __keylime__.attrs', function() {
+        Lightsaber.attr('color');
+        assert(Lightsaber.prototype.__keylime__.attrs.color !== undefined);
+      });
+
+      it('should set a name property to the __keylime__.attrs entry', function() {
+        Lightsaber.attr('power');
+        assert.equal(Lightsaber.prototype.__keylime__.attrs.power.name, 'power');
+      });
+
+      it('should set a defaultValue property to the __keylime__.attrs entry', function() {
+        Lightsaber.attr('power', 100);
+        assert.equal(Lightsaber.prototype.__keylime__.attrs.power.defaultValue, 100);
+      });
+
     });
 
   });
