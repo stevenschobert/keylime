@@ -84,20 +84,56 @@
         assert.equal(target.timesCreated, 1);
       });
 
-      it('should set the property using a deep copy of an object in the \'defaultValue\' key', function() {
-        var obj = {one: 1, sub: {}};
-        keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testObj', defaultValue: obj }});
-        assert.notEqual(target.testObj, obj);
-        assert.notEqual(target.testObj.sub, obj.sub);
-        assert.deepEqual(target.testObj, obj);
-      });
+      describe('copyMode option', function() {
+        describe('deep', function() {
+          it('should set the property using a deep copy of an object in the \'defaultValue\' key', function() {
+            var obj = {one: 1, sub: {}};
+            keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testObj', defaultValue: obj, copyMode: 'deep' }});
+            assert.notEqual(target.testObj, obj);
+            assert.notEqual(target.testObj.sub, obj.sub);
+            assert.deepEqual(target.testObj, obj);
+          });
 
-      it('should set the property using a deep copy of an array in the \'defaultValue\' key', function() {
-        var arr = [1, {}];
-        keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testArr', defaultValue: arr }});
-        assert.notEqual(target.testArr, arr);
-        assert.notEqual(target.testArr[1], arr[1]);
-        assert.deepEqual(target.testArr, arr);
+          it('should set the property using a deep copy of an array in the \'defaultValue\' key', function() {
+            var arr = [1, {}];
+            keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testArr', defaultValue: arr, copyMode: 'deep' }});
+            assert.notEqual(target.testArr, arr);
+            assert.notEqual(target.testArr[1], arr[1]);
+            assert.deepEqual(target.testArr, arr);
+          });
+        });
+
+        describe('shallow', function() {
+          it('should set the property using a shallow copy of an object in the \'defaultValue\' key', function() {
+            var obj = {one: 1, sub: {}};
+            keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testObj', defaultValue: obj, copyMode: 'shallow' }});
+            assert.notEqual(target.testObj, obj);
+            assert.equal(target.testObj.sub, obj.sub);
+            assert.deepEqual(target.testObj, obj);
+          });
+
+          it('should set the property using a shallow copy of an array in the \'defaultValue\' key', function() {
+            var arr = [1, {}];
+            keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testArr', defaultValue: arr, copyMode: 'shallow' }});
+            assert.notEqual(target.testArr, arr);
+            assert.equal(target.testArr[1], arr[1]);
+            assert.deepEqual(target.testArr, arr);
+          });
+        });
+
+        describe('none', function() {
+          it('should set the property using a reference of an object in the \'defaultValue\' key', function() {
+            var obj = {one: 1, sub: {}};
+            keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testObj', defaultValue: obj, copyMode: 'none' }});
+            assert.equal(target.testObj, obj);
+          });
+
+          it('should set the property using a reference copy of an array in the \'defaultValue\' key', function() {
+            var arr = [1, {}];
+            keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testArr', defaultValue: arr, copyMode: 'none' }});
+            assert.equal(target.testArr, arr);
+          });
+        });
       });
     });
   });
