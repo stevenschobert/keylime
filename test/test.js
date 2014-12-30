@@ -46,6 +46,33 @@
       });
     });
 
+    describe('#setAttributesForInstance', function() {
+      var Jedi;
+
+      beforeEach(function() {
+        Jedi = keylime(function Jedi() {}).attr('power', 100);
+      });
+
+      it('should set attributes based on the keylime map of passed in object', function() {
+        var j = new Jedi();
+        keylime.core.setAttributesForInstance(j);
+        assert.equal(j.power, 100);
+      });
+
+      it('should pull attributes from an object argument', function() {
+        var j = new Jedi();
+        keylime.core.setAttributesForInstance(j, { power: 200, side: 'dark'});
+        assert.equal(j.power, 200);
+        assert(j.side === undefined);
+      });
+
+      it('should pull the Keylime constructor from an optional third argument', function() {
+        var j = {};
+        keylime.core.setAttributesForInstance(j, {}, Jedi);
+        assert.equal(j.power, 100);
+      });
+    });
+
     describe('#setAttributesUsingMapAndValues', function() {
       var target;
 
