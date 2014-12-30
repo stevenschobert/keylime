@@ -83,6 +83,7 @@
         }});
         assert.equal(target.timesCreated, 1);
       });
+    });
 
     describe('#clone', function() {
       it('should return values for booleans', function() {
