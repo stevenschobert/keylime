@@ -47,26 +47,28 @@
     });
 
     describe('#setAttributesUsingMapAndValues', function() {
+      var target;
+
+      beforeEach(function() {
+        target = {};
+      });
+
       it('should not set a property not present in the map', function() {
-        var target = {};
         keylime.core.setAttributesUsingMapAndValues(target, {}, {color: 'blue'});
         assert.equal(target.color, undefined);
       });
 
       it('should set a property using the \'name\' key in the attributes map', function() {
-        var target = {};
         keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'color' }}, {color: 'blue'});
         assert.equal(target.color, 'blue');
       });
 
       it('should set an omited value using the \'defaultValue\' key in the attributes map', function() {
-        var target = {};
         keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'power', defaultValue: 100}});
         assert.equal(target.power, 100);
       });
 
       it('should set the property using the return value of \'defaultValue\', if it is a function', function() {
-        var target = {};
         var timesCreated = 0;
         keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'timesCreated', defaultValue: function() {
           return ++timesCreated;
@@ -75,7 +77,6 @@
       });
 
       it('should set the property using the return value of values key, if it is a function', function() {
-        var target = {};
         var timesCreated = 0;
         keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'timesCreated', defaultValue: undefined } }, {timesCreated: function() {
           return ++timesCreated;
