@@ -143,6 +143,13 @@
       assert.equal(keylime.core.KeylimeConstructor.prototype.__proto__, Function.prototype);
     });
 
+    describe('#getAttrs', function() {
+      it('should return the constructor\'s attributes map', function() {
+        var Blaster = keylime('Blaster');
+        assert.equal(keylime.core.KeylimeConstructor.prototype.getAttrs.call(Blaster), Blaster.prototype.__keylime__.attrs);
+      });
+    });
+
     describe('#attr', function() {
       var Lightsaber;
 
