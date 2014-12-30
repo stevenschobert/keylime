@@ -239,6 +239,10 @@
         assert.equal(Lightsaber.prototype.__keylime__.attrs.power.defaultValue, 100);
       });
 
+      it('should copy the remaining options properties to the attrs entry', function() {
+        Lightsaber.attr('power', 100, { cloneDeep: true });
+        assert.equal(Lightsaber.prototype.__keylime__.attrs.power.cloneDeep, true);
+      });
     });
 
   });
