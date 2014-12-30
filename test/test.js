@@ -12,14 +12,14 @@
 
     it('should create a KeylimeConstructor function', function() {
       var Sith = keylime('Sith');
-      assert.equal(Sith.__proto__, keylime.core.KeylimeConstructor.prototype);
+      assert.equal(Sith.__proto__, keylime.prototypes.KeylimeConstructor.prototype);
       assert(Sith.prototype.__keylime__ !== undefined);
     });
 
     it('should convert and existing function to Keylime', function() {
       function Sith() {}
       keylime(Sith);
-      assert.equal(Sith.__proto__, keylime.core.KeylimeConstructor.prototype);
+      assert.equal(Sith.__proto__, keylime.prototypes.KeylimeConstructor.prototype);
       assert(Sith.prototype.__keylime__ !== undefined);
     });
   });
@@ -36,7 +36,7 @@
       it('should change the prototype of the function to KeylimeConstructor', function() {
         function Jedi() {}
         keylime.core.convertConstructorToKeylime(Jedi);
-        assert.equal(Jedi.__proto__, keylime.core.KeylimeConstructor.prototype);
+        assert.equal(Jedi.__proto__, keylime.prototypes.KeylimeConstructor.prototype);
       });
 
       it('should define a __keylime__ object on the constructor\'s prototype', function() {
@@ -165,50 +165,74 @@
     });
   });
 
+  describe('KeylimeDescriptor prototype', function() {
+    var k;
+
+    beforeEach(function() {
+      k = new keylime.prototypes.KeylimeDescriptor();
+    });
+
+    describe('#setAttr', function() {
+      it('should add a property to the instance', function() {
+        k.setAttr('color');
+        assert(k.attributes.color !== undefined);
+      });
+
+      it('should set the attribute\'s name property using the name argument', function() {
+        k.setAttr('power');
+        assert.equal(k.attributes.power.name, 'power');
+      });
+
+      it('should set the attribute\'s defaultValue property using the second argument', function() {
+        k.setAttr('power', 100);
+        assert.equal(k.attributes.power.defaultValue, 100);
+      });
+
+      it('should copy the remaining options to the attribute\'s properties', function() {
+        k.setAttr('power', 100, { extended: true });
+        assert.equal(k.attributes.power.cloneDeep);
+      });
+    });
+
+    describe('#getAttr', function() {
+      it('should return the attribute descriptor for a given name', function() {
+        k.setAttr('color', 'blue', { hex: '00f' });
+        assert.deepEqual(k.getAttr('color'), {
+          name: 'color',
+          hex: '00f',
+          defaultValue: 'blue'
+        });
+      });
+    });
+
+    describe('#getDefaultFor', function() {
+      it('should return the default value for an attribute by name', function() {
+        k.setAttr('power', 100);
+        assert.equal(k.getDefaultValueFor('power'), 100);
+      });
+    });
+  });
+
   describe('KeylimeConstructor prototype', function() {
     it('should have it\'s prototype set to Function.prototype', function() {
-      assert.equal(keylime.core.KeylimeConstructor.prototype.__proto__, Function.prototype);
+      assert.equal(keylime.prototypes.KeylimeConstructor.prototype.__proto__, Function.prototype);
     });
 
     describe('#getAttrs', function() {
       it('should return the constructor\'s attributes map', function() {
         var Blaster = keylime('Blaster');
-        assert.equal(keylime.core.KeylimeConstructor.prototype.getAttrs.call(Blaster), Blaster.prototype.__keylime__.attrs);
+        assert.equal(keylime.prototypes.KeylimeConstructor.prototype.getAttrs.call(Blaster), Blaster.prototype.__keylime__.attrs);
       });
     });
 
-    describe('#attr', function() {
-      var Lightsaber;
-
-      beforeEach(function() {
-        Lightsaber = keylime('Lightsaber');
-      });
-
-      it('should add a property to the __keylime__.attrs', function() {
-        Lightsaber.attr('color');
-        assert(Lightsaber.prototype.__keylime__.attrs.color !== undefined);
-      });
-
-      it('should set a name property to the __keylime__.attrs entry', function() {
-        Lightsaber.attr('power');
-        assert.equal(Lightsaber.prototype.__keylime__.attrs.power.name, 'power');
-      });
-
-      it('should set a defaultValue property to the __keylime__.attrs entry', function() {
-        Lightsaber.attr('power', 100);
-        assert.equal(Lightsaber.prototype.__keylime__.attrs.power.defaultValue, 100);
-      });
-
-      it('should copy the remaining options properties to the attrs entry', function() {
-        Lightsaber.attr('power', 100, { cloneDeep: true });
-        assert.equal(Lightsaber.prototype.__keylime__.attrs.power.cloneDeep, true);
-      });
-
-      it('should set the default \'copyMode\' option to \'deep\'', function() {
-        Lightsaber.attr('power', 100);
-        assert.equal(Lightsaber.prototype.__keylime__.attrs.power.copyMode, 'deep');
-      });
-    });
+    /*
+     *describe('#attr', function() {
+     *  it('should set the default \'copyMode\' option to \'deep\'', function() {
+     *    Lightsaber.attr('power', 100);
+     *    assert.equal(Lightsaber.prototype.__keylime__.attrs.power.copyMode, 'deep');
+     *  });
+     *});
+     */
   });
 
 }());
