@@ -174,6 +174,41 @@
       });
     });
 
+    describe('#extend', function() {
+      it('should return the first object', function() {
+        var testObj = {};
+        assert.equal(keylime.util.extend(testObj), testObj);
+      });
+
+      it('should copy properties from the second object to the first', function() {
+        var obj1 = { one: 1 };
+        var obj2 = { two: 2 };
+        keylime.util.extend(obj1, obj2);
+        assert.equal(obj1.two, 2);
+      });
+
+      it('should not modify properties from the second object', function() {
+        var obj1 = { one: 1 };
+        var obj2 = { two: 2 };
+        keylime.util.extend(obj1, obj2);
+        assert.deepEqual({two: 2}, obj2);
+      });
+
+      it('should overwrite properties with the same name from right to left', function() {
+        var obj1 = { one: 1 };
+        var obj2 = { one: 2 };
+        keylime.util.extend(obj1, obj2);
+        assert.equal(obj1.one, 2);
+      });
+
+      it('should support n number of objects to extend from', function() {
+        assert.deepEqual({
+          name: 'Force Push',
+          power: 100,
+          available: true
+        }, keylime.util.extend({name: 'force push', power: 50}, {power: 75}, {available: true, power: 100}, {name: 'Force Push'}));
+      });
+    });
   });
 
   describe('KeylimeConstructor prototype', function() {
