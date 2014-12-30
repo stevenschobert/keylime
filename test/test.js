@@ -83,6 +83,22 @@
         }});
         assert.equal(target.timesCreated, 1);
       });
+
+      it('should set the property using a deep copy of an object in the \'defaultValue\' key', function() {
+        var obj = {one: 1, sub: {}};
+        keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testObj', defaultValue: obj }});
+        assert.notEqual(target.testObj, obj);
+        assert.notEqual(target.testObj.sub, obj.sub);
+        assert.deepEqual(target.testObj, obj);
+      });
+
+      it('should set the property using a deep copy of an array in the \'defaultValue\' key', function() {
+        var arr = [1, {}];
+        keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'testArr', defaultValue: arr }});
+        assert.notEqual(target.testArr, arr);
+        assert.notEqual(target.testArr[1], arr[1]);
+        assert.deepEqual(target.testArr, arr);
+      });
     });
   });
 
