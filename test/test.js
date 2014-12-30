@@ -169,6 +169,11 @@
         Lightsaber.attr('power', 100, { cloneDeep: true });
         assert.equal(Lightsaber.prototype.__keylime__.attrs.power.cloneDeep, true);
       });
+
+      it('should set the default \'copyMode\' option to \'deep\'', function() {
+        Lightsaber.attr('power', 100);
+        assert.equal(Lightsaber.prototype.__keylime__.attrs.power.copyMode, 'deep');
+      });
     });
   });
 
