@@ -12,15 +12,17 @@
 
     it('should create a KeylimeConstructor function', function() {
       var Sith = keylime('Sith');
-      assert.equal(Sith.__proto__, keylime.prototypes.KeylimeConstructor.prototype);
-      assert(Sith.prototype.__keylime__ !== undefined);
+      assert(Sith instanceof keylime.prototypes.KeylimeConstructor);
+      assert(Sith.prototype.keylime instanceof keylime.prototypes.KeylimeDescriptor);
+      assert(Sith.descriptor instanceof keylime.prototypes.KeylimeDescriptor);
     });
 
     it('should convert and existing function to Keylime', function() {
       function Sith() {}
       keylime(Sith);
-      assert.equal(Sith.__proto__, keylime.prototypes.KeylimeConstructor.prototype);
-      assert(Sith.prototype.__keylime__ !== undefined);
+      assert(Sith instanceof keylime.prototypes.KeylimeConstructor);
+      assert(Sith.prototype.keylime instanceof keylime.prototypes.KeylimeDescriptor);
+      assert(Sith.descriptor instanceof keylime.prototypes.KeylimeDescriptor);
     });
   });
 
@@ -39,10 +41,33 @@
         assert.equal(Jedi.__proto__, keylime.prototypes.KeylimeConstructor.prototype);
       });
 
-      it('should define a __keylime__ object on the constructor\'s prototype', function() {
+      it('should define a KeylimeDescriptor on the constructor\'s prototype', function() {
         function Sith() {}
         keylime.core.convertConstructorToKeylime(Sith);
-        assert(Sith.prototype.__keylime__ !== undefined);
+        assert(Sith.prototype.keylime instanceof keylime.prototypes.KeylimeDescriptor);
+      });
+
+      it('should define a KeylimeDescriptor on constructor', function() {
+        function Sith() {}
+        keylime.core.convertConstructorToKeylime(Sith);
+        assert(Sith.descriptor instanceof keylime.prototypes.KeylimeDescriptor);
+      });
+
+      it('should set the descriptor attributes using an optional argument', function() {
+        function Sith() {}
+        keylime.core.convertConstructorToKeylime(Sith, {
+          color: {
+            color: 'color',
+            defaultValue: 'blue'
+          }
+        });
+
+        assert.deepEqual(Sith.descriptor.attributes, {
+          color: {
+            color: 'color',
+            defaultValue: 'blue'
+          }
+        });
       });
     });
 
@@ -214,25 +239,36 @@
   });
 
   describe('KeylimeConstructor prototype', function() {
-    it('should have it\'s prototype set to Function.prototype', function() {
-      assert.equal(keylime.prototypes.KeylimeConstructor.prototype.__proto__, Function.prototype);
+    var k;
+
+    beforeEach(function() {
+      k = new keylime.prototypes.KeylimeConstructor();
+    });
+
+    it('should be a type of function', function() {
+      assert(k instanceof Function);
+    });
+
+    it('should have a KeylimeDescriptor', function() {
+      assert(k.descriptor instanceof keylime.prototypes.KeylimeDescriptor);
+    });
+
+    it('should set a reference to the descriptor on it\'s prototype as \'keylime\'', function() {
+      assert.equal(k.prototype.keylime, k.descriptor);
     });
 
     describe('#getAttrs', function() {
-      it('should return the constructor\'s attributes map', function() {
-        var Blaster = keylime('Blaster');
-        assert.equal(keylime.prototypes.KeylimeConstructor.prototype.getAttrs.call(Blaster), Blaster.prototype.__keylime__.attrs);
+      it('should return the descriptor\'s attributes', function() {
+        assert.equal(k.getAttrs(), k.descriptor.attributes);
       });
     });
 
-    /*
-     *describe('#attr', function() {
-     *  it('should set the default \'copyMode\' option to \'deep\'', function() {
-     *    Lightsaber.attr('power', 100);
-     *    assert.equal(Lightsaber.prototype.__keylime__.attrs.power.copyMode, 'deep');
-     *  });
-     *});
-     */
+    describe('#attr', function() {
+      it('should set the default \'copyMode\' option to \'deep\'', function() {
+        k.attr('power', 100);
+        assert.equal(k.descriptor.attributes.power.copyMode, 'deep');
+      });
+    });
   });
 
 }());
