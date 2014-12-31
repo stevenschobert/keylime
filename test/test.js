@@ -299,6 +299,21 @@
         k.attr('power', 100);
         assert.equal(k.descriptor.attributes.power.copyMode, 'deep');
       });
+
+      it('should return the same constructor for chaining', function() {
+        assert.equal(k.attr('test'), k);
+      });
+    });
+
+    describe('#method', function() {
+      it('should use the \'name\' parameter to extend the prototype object', function() {
+        k.method('test', function() {});
+        assert(k.prototype.test !== undefined);
+      });
+
+      it('should add the \'function\' parameter to the prototype', function() {
+        assert.equal(k.method('test', function() {}), k);
+      });
     });
   });
 
