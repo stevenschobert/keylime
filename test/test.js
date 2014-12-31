@@ -32,6 +32,22 @@
         var func = keylime.core.createNamedConstructor('Stormtrooper');
         assert.equal(func.name, 'Stormtrooper');
       });
+
+      it('should call keylime.init when run', function() {
+        var Func = keylime.core.createNamedConstructor('Stormtrooper');
+        var called = 0;
+        Func.prototype.keylime = {init: function() {++called; }};
+        new Func();
+        assert.equal(called, 1);
+      });
+
+      it('should skip calling keylime.init based on a second parameter', function() {
+        var Func = keylime.core.createNamedConstructor('Stormtrooper', false);
+        var called = 0;
+        Func.prototype.keylime = {init: function() {++called; }};
+        new Func();
+        assert.equal(called, 0);
+      });
     });
 
     describe('#convertConstructorToKeylime', function() {
