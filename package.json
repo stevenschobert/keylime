@@ -21,7 +21,6 @@
     "assert": "^1.1.1",
     "jshint": "^2.5.2",
     "jshint-stylish": "^0.4.0",
-    "lodash": "^2.4.1",
     "matcha": "^0.6.0",
     "mocha": "^1.21.0"
   },
