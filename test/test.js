@@ -197,6 +197,21 @@
       k = new keylime.prototypes.KeylimeDescriptor();
     });
 
+    describe('#init', function() {
+      it('should set attributes on a target object', function() {
+        k.setAttr('color', 'blue');
+        assert.equal(k.init({}).color, 'blue');
+      });
+
+      it('should overwrite attributes with an optional object parameter', function() {
+        k.setAttr('side', 'dark').setAttr('power', 100);
+        assert.deepEqual(k.init({}, {side: 'light'}), {
+          side: 'light',
+          power: 100
+        });
+      });
+    });
+
     describe('#setAttr', function() {
       it('should add a property to the instance', function() {
         k.setAttr('color');
