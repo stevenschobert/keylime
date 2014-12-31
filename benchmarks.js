@@ -2,50 +2,74 @@ var keylime = require('./');
 var _ = require('lodash');
 
 var KeylimePost = keylime('KeylimePost')
-  .attr('title', '')
-  .attr('data', function createDate() {
+    .attr('draft', true)
+    .attr('title', '')
+    .attr('tags', [])
+    .attr('date', function createDate() {
+      return Date.now();
+    });
+
+var HybridPost = keylime(function HybridPost(title, options) {
+      this.keylime.init(this, options);
+      this.title = title;
+    })
+    .attr('title', '')
+    .attr('draft', true)
+    .attr('tags', [])
+    .attr('date', function() {
+      return Date.now();
+    });
+
+var plainAttrs = {
+  title: '',
+  tags: [],
+  draft: true,
+  date: function createDate() {
     return Date.now();
-  });
+  }
+};
+
+function BarePost(params) {
+  this.title = params.title || '';
+  this.tags = params.tags || [];
+  this.draft = params.draft || true;
+  this.date = params.date || Date.now();
+}
 
 function PlainPost(params) {
-  var attrs = {
-    title: '',
-    date: function createDate() {
-      return Date.now();
-    }
-  };
-  params = params || {};
+  var value;
 
-  var sanitizedParams = {};
-
-  for (var attrName in attrs) {
-    if (attrs.hasOwnProperty(attrName)) {
-      if (params[attrName] !== undefined) {
-        sanitizedParams[attrName] = params[attrName];
+  for (var attrName in plainAttrs) {
+    if (plainAttrs.hasOwnProperty(attrName)) {
+      if (params && params[attrName] !== undefined) {
+        value = params[attrName];
       } else {
-        sanitizedParams[attrName] = attrs[attrName];
+        value = plainAttrs[attrName];
       }
-    }
-  }
 
-  for (var sanParamName in sanitizedParams) {
-    if (sanitizedParams.hasOwnProperty(sanParamName)) {
-      if (typeof sanitizedParams[sanParamName] === 'function') {
-        this[sanParamName] = sanitizedParams[sanParamName]();
+      if (typeof value === 'function') {
+        this[attrName] = value();
       } else {
-        this[sanParamName] = sanitizedParams[sanParamName];
+        this[attrName] = value;
       }
     }
   }
 }
 
 suite('creating instances with \'new\'', function() {
-  bench('keylime', function() {
-    new KeylimePost({title: 'New Post'});
+  bench('bare post', function() {
+    new BarePost({title: 'New Post'});
   });
 
   bench('plain constructor', function() {
     new PlainPost({title: 'New Post'});
   });
-});
 
+  bench('keylime', function() {
+    new KeylimePost({title: 'New Post'});
+  });
+
+  bench('hybrid', function() {
+    new HybridPost('New Post');
+  });
+});
