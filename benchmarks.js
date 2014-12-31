@@ -73,3 +73,21 @@ suite('creating instances with \'new\'', function() {
     new HybridPost('New Post');
   });
 });
+
+suite('attribute counts', function() {
+  var Jedi0 = keylime('Jedi');
+  var Jedi3 = keylime('Jedi').attr('one', 1).attr('two', 2).attr('three', 3);
+  var Jedi5 = keylime('Jedi').attr('one', 1).attr('two', 2).attr('three', 3).attr('four', 4).attr('five', 5);
+
+  bench('0 attributes', function() {
+    new Jedi0();
+  });
+
+  bench('3 attributes', function() {
+    new Jedi3();
+  });
+
+  bench('5 attributes', function() {
+    new Jedi5();
+  });
+});
