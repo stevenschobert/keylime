@@ -5,7 +5,8 @@
   "main": "lib/keylime.js",
   "scripts": {
     "test": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js lib/** test/** && ./node_modules/.bin/mocha -R spec test/**",
-    "bench": "./node_modules/.bin/matcha benchmarks.js"
+    "bench": "./node_modules/.bin/matcha benchmarks.js",
+    "build": "./node_modules/.bin/uglifyjs lib/keylime.js -c -m -o dist/keylime.min.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,8 @@
     "jshint": "^2.5.2",
     "jshint-stylish": "^0.4.0",
     "matcha": "^0.6.0",
-    "mocha": "^1.21.0"
+    "mocha": "^1.21.0",
+    "uglify-js": "^2.4.16"
   },
   "dependencies": {}
 }

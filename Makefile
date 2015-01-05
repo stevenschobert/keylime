@@ -4,7 +4,7 @@ install:
 	@npm install
 
 clean:
-	@echo 'clean task not implemented'
+	@rm -rf dist/*
 
 build:
 	@npm run build
