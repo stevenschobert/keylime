@@ -364,6 +364,32 @@
         assert.equal(k.method('test', function() {}), k);
       });
     });
-  });
 
+    describe('#include', function() {
+      it('should return the same constructor for chaining', function() {
+        assert.equal(k.include(function() {}), k);
+      });
+
+      it('should invoke the function passed to the include', function() {
+        var called = 0;
+        var mixin = function() {++called;};
+        k.include(mixin);
+        assert.equal(called, 1);
+      });
+
+      it('should pass the constructor to the include function', function() {
+        var capture = null;
+        var mixin = function(constructor) {capture = constructor;};
+        k.include(mixin);
+        assert.equal(k, capture);
+      });
+
+      it('should pass the remaining arguments to the include function', function() {
+        var capture = null;
+        var mixin = function(constructor, other) {capture = other;};
+        k.include(mixin, 'test');
+        assert.equal(capture, 'test');
+      });
+    });
+  });
 }());
