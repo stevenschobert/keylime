@@ -185,6 +185,14 @@
           assert.equal(capture, 'value2');
         });
 
+        it('should pass the attribute name to the handler function', function() {
+          var target = {};
+          var capture = null;
+          var handler = function(instance, value, name) { capture = name; };
+          keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: 'test', handler: handler } }, {test: 'value2'});
+          assert.equal(capture, 'test');
+        });
+
         it('should set the target property to the return value of the handler', function() {
           var target = {};
           var handler = function() { return 'blah'; };
