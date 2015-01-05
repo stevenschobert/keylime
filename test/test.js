@@ -152,6 +152,47 @@
         assert.equal(target.timesCreated, 1);
       });
 
+      describe('handler option', function() {
+        it('should call the handler function when setting that attribute on a new instance', function() {
+          var target = {};
+          var called = 0;
+          var handler = function() { ++called; };
+          keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: undefined, handler: handler } });
+          assert.equal(called, 1);
+        });
+
+        it('should pass the target object to the handler function', function() {
+          var target = {};
+          var capture = null;
+          var handler = function(instance) { capture = instance; };
+          keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: undefined, handler: handler } });
+          assert.equal(target, capture);
+        });
+
+        it('should pass the default value to the handler function', function() {
+          var target = {};
+          var capture = null;
+          var handler = function(instance, value) { capture = value; };
+          keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: 'test', handler: handler } });
+          assert.equal(capture, 'test');
+        });
+
+        it('should pass the overwritten value to the handler function in place of the default', function() {
+          var target = {};
+          var capture = null;
+          var handler = function(instance, value) { capture = value; };
+          keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: 'test', handler: handler } }, {test: 'value2'});
+          assert.equal(capture, 'value2');
+        });
+
+        it('should set the target property to the return value of the handler', function() {
+          var target = {};
+          var handler = function() { return 'blah'; };
+          keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: 'test', handler: handler } }, {test: 'value2'});
+          assert.equal(target.test, 'blah');
+        });
+      });
+
       describe('copyMode option', function() {
         describe('deep', function() {
           it('should set the property using a deep copy of an object in the \'defaultValue\' key', function() {
