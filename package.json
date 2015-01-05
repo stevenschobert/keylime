@@ -2,7 +2,7 @@
   "name": "keylime",
   "version": "0.4.1",
   "description": "A delicious way to write prototypal classes in JavaScript.",
-  "main": "lib/keylime.js",
+  "main": "dist/keylime.min.js",
   "scripts": {
     "test": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js lib/** test/** && ./node_modules/.bin/mocha -R spec test/**",
     "bench": "./node_modules/.bin/matcha benchmarks.js",
