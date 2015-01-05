@@ -164,7 +164,7 @@
         it('should pass the target object to the handler function', function() {
           var target = {};
           var capture = null;
-          var handler = function(instance) { capture = instance; };
+          var handler = function(value, instance) { capture = instance; };
           keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: undefined, handler: handler } });
           assert.equal(target, capture);
         });
@@ -172,7 +172,7 @@
         it('should pass the default value to the handler function', function() {
           var target = {};
           var capture = null;
-          var handler = function(instance, value) { capture = value; };
+          var handler = function(value, instance) { capture = value; };
           keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: 'test', handler: handler } });
           assert.equal(capture, 'test');
         });
@@ -180,17 +180,9 @@
         it('should pass the overwritten value to the handler function in place of the default', function() {
           var target = {};
           var capture = null;
-          var handler = function(instance, value) { capture = value; };
+          var handler = function(value, instance) { capture = value; };
           keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: 'test', handler: handler } }, {test: 'value2'});
           assert.equal(capture, 'value2');
-        });
-
-        it('should pass the attribute name to the handler function', function() {
-          var target = {};
-          var capture = null;
-          var handler = function(instance, value, name) { capture = name; };
-          keylime.core.setAttributesUsingMapAndValues(target, { test: { name: 'test', defaultValue: 'test', handler: handler } }, {test: 'value2'});
-          assert.equal(capture, 'test');
         });
 
         it('should set the target property to the return value of the handler', function() {
