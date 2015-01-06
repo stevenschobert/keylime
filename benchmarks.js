@@ -74,6 +74,18 @@ suite('creating instances with \'new\'', function() {
   });
 });
 
+suite('using \'new\' vs .create()', function() {
+  var Post = keylime('Post').attr('title').attr('date', Date.now).attr('comments', []);
+
+  bench('new', function() {
+    new Post({title: 'hello world'});
+  });
+
+  bench('.create()', function() {
+    Post.create({title: 'hello world'});
+  });
+});
+
 suite('using attribute handlers', function() {
   var TestHandler0 = keylime('Test').attr('one', 1);
   var TestHandler1 = keylime('Test').attr('one', undefined, { handler: function() { return 1;}});
