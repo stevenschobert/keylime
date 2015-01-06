@@ -383,5 +383,41 @@
         assert.equal(capture, 'test');
       });
     });
+
+    describe('#create', function() {
+      beforeEach(function() {
+        k = keylime('Jedi');
+        k.attr('name').attr('age', 10);
+      });
+
+      it('should return an instance of the constructor\'s prototype', function() {
+        var i = k.create();
+        assert.equal(i.__proto__, k.prototype);
+      });
+
+      it('should apply override attributes', function() {
+        var i = k.create({name: 'obi wan'});
+        assert.equal(i.name, 'obi wan');
+      });
+
+      it('should apply default attributes', function() {
+        var i = k.create();
+        assert.equal(i.age, 10);
+      });
+
+      it('should invoke the constructor function', function() {
+        var called = 0;
+        k = keylime(function() { ++called; });
+        k.create();
+        assert.equal(called, 1);
+      });
+
+      it('should pass any arguments passed to create to the function', function() {
+        var capture = null;
+        k = keylime(function(arg) { capture = arg; });
+        k.create(1);
+        assert.equal(capture, 1);
+      });
+    });
   });
 }());
