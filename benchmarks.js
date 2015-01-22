@@ -86,40 +86,6 @@ suite('using \'new\' vs .create()', function() {
   });
 });
 
-suite('using attribute handlers', function() {
-  var TestHandler0 = keylime('Test').attr('one', 1);
-  var TestHandler1 = keylime('Test').attr('one', undefined, { handler: function() { return 1;}});
-  var TestHandler3 = keylime('Test').attr('one', undefined, { handler: function() { return 1;}}).attr('two', undefined, { handler: function() { return 2;}}).attr('three', undefined, { handler: function() { return 3;}});
-
-  bench('0 handlers', function() {
-    new TestHandler0();
-  });
-
-  bench('1 handlers', function() {
-    new TestHandler1();
-  });
-
-  bench('3 handlers', function() {
-    new TestHandler3();
-  });
-});
-
-suite('passing overrides', function() {
-  var Test = keylime('Test').attr('one', 1).attr('two', 2).attr('three', 3).attr('four', 4).attr('five', 5);
-
-  bench('0 overrides', function() {
-    new Test();
-  });
-
-  bench('3 overrides', function() {
-    new Test({one: 'one', two: 'two', three: 'three'});
-  });
-
-  bench('5 overrides', function() {
-    new Test({one: 'one', two: 'two', three: 'three', four: 'four', five: 'five'});
-  });
-});
-
 suite('attribute counts', function() {
   var Jedi0 = keylime('Jedi');
   var Jedi3 = keylime('Jedi').attr('one', 1).attr('two', 2).attr('three', 3);
