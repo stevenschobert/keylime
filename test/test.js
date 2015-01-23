@@ -203,6 +203,67 @@
           });
         });
       });
+
+      describe('handlers', function() {
+        it('should evaluate a single handler function', function() {
+          var called = 0;
+          var handler = function() { ++called; };
+          keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'test', defaultValue: 2, handlers: handler}});
+          assert.equal(called, 1);
+        });
+
+        it('should evaluate an array of handler functions', function() {
+          var called = 0;
+          var handler = function() { ++called; };
+          keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'test', defaultValue: 2, handlers: [handler, handler, handler]}});
+          assert.equal(called, 3);
+        });
+
+        it('should use the return value of the handler to determine the property of the target', function() {
+          keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'test', defaultValue: 2, handlers: function() { return false; }}});
+          assert.equal(target.test, false);
+        });
+
+        it('should pass the default value to the handler, if non is present on the target', function() {
+          var capture = null;
+          var handler = function(value) { capture = value;};
+          keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'test', defaultValue: 2, handlers: handler}});
+          assert.equal(capture, 2);
+        });
+
+        it('should pass the return value of the first handler to subsequent handlers', function() {
+          var capture1 = null;
+          var capture2 = null;
+          var handler1 = function(value) { capture1 = value; return 3;};
+          var handler2 = function(value) { capture2 = value;};
+          keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'test', defaultValue: 2, handlers: [handler1, handler2]}});
+          assert.equal(capture1, 2);
+          assert.equal(capture2, 3);
+        });
+
+        it('should pass the target object\'s value to the handler', function() {
+          var target = { test: 'new' };
+          var capture = null;
+          var handler = function(value) { capture = value; };
+          keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'test', defaultValue: 'new', handlers: handler}});
+          assert.equal(capture, 'new');
+        });
+
+        it('should pass the target object to the handler', function() {
+          var capture = null;
+          var handler = function(value, instance) { capture = instance; };
+          keylime.core.setAttributesUsingMapAndValues(target, {test: { name: 'test', defaultValue: 'new', handlers: handler}});
+          assert.equal(capture, target);
+        });
+
+        it('should pass the full attribute to the handler', function() {
+          var capture = null;
+          var handler = function(value, instance, attr) { capture = attr; };
+          var attrMap = {test: {name: 'test', defaultValue: 'new', handlers: handler} };
+          keylime.core.setAttributesUsingMapAndValues(target, attrMap);
+          assert.equal(capture, attrMap.test);
+        });
+      });
     });
   });
 
