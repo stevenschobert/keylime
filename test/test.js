@@ -326,6 +326,106 @@
       });
     });
 
+    describe('#addHandler', function() {
+      it('should set the handlers property of the attribute', function() {
+        var handler = function() {};
+        k.setAttr('color', 'blue');
+        k.addHandler('color', handler);
+        assert.equal(k.attributes.color.handlers, handler);
+      });
+
+      it('should throw an error if the attribute does not exist', function() {
+        assert.throws(function() {k.addHandler('blah', function() {});}, /found/);
+      });
+
+      it('should convert the handlers property to array if a handler is already set', function() {
+        var handler = function() {};
+        k.setAttr('color', 'blue', { handlers: handler });
+        k.addHandler('color', handler);
+        assert(Array.isArray(k.attributes.color.handlers));
+      });
+
+      it('should append the handler to the end of the handlers array', function() {
+        var handler1 = function() {};
+        var handler2 = function() {};
+        k.setAttr('color', 'blue', { handlers: handler1 });
+        k.addHandler('color', handler2);
+        assert.deepEqual(k.attributes.color.handlers, [handler1, handler2]);
+      });
+
+      it('should return the instance', function() {
+        k.setAttr('color', 'blue');
+        assert.equal(k.addHandler('color', function() {}), k);
+      });
+    });
+
+    describe('#removeHandler', function() {
+      it('should set the handlers property to null if the handler matches', function() {
+        var handler = function() {};
+        k.setAttr('color', 'blue', { handlers: handler });
+        k.removeHandler('color', handler);
+        assert.equal(k.attributes.color.handlers, null);
+      });
+
+      it('should set the handlers to null if no more values in array', function() {
+        var handler = function() {};
+        k.setAttr('color', 'blue', { handlers: [handler] });
+        k.removeHandler('color', handler);
+        assert.equal(k.attributes.color.handlers, null);
+      });
+
+      it('should remove all occurances of the handler from the array', function() {
+        var handler1 = function() {};
+        var handler2 = function() {};
+        k.setAttr('color', 'blue', { handlers: [handler1, handler2, handler1] });
+        k.removeHandler('color', handler1);
+        assert.deepEqual(k.attributes.color.handlers, [handler2]);
+      });
+
+      it('should not affect handlers that don\'t match', function() {
+        var handler1 = function() {};
+        var handler2 = function() {};
+        k.setAttr('color', 'blue', { handlers: handler1});
+        k.removeHandler('color', handler2);
+        assert.equal(k.attributes.color.handlers, handler1);
+      });
+
+      it('should not affect handlers that don\'t match', function() {
+        var handler1 = function() {};
+        var handler2 = function() {};
+        k.setAttr('color', 'blue', { handlers: [handler1]});
+        k.removeHandler('color', handler2);
+        assert.deepEqual(k.attributes.color.handlers, [handler1]);
+      });
+
+      it('should return false if the handler was not removed', function() {
+        var handler1 = function() {};
+        var handler2 = function() {};
+        k.setAttr('color', 'blue', { handlers: handler1});
+        assert.equal(k.removeHandler('color', handler2), false);
+      });
+
+      it('should return true if the handler was removed', function() {
+        var handler = function() {};
+        k.setAttr('color', 'blue', { handlers: handler });
+        assert.equal(k.removeHandler('color', handler), true);
+      });
+    });
+
+    describe('#removeAllHandlers', function() {
+      it('should set the handlers of an attribute to null', function() {
+        k.setAttr('color', 'blue', { handlers: function() {} });
+        k.removeAllHandlers('color');
+        assert.equal(k.attributes.color.handlers, null);
+      });
+
+      it('should return the handlers that were removed', function() {
+        var handler = function() {};
+        k.setAttr('color', 'blue', { handlers: handler });
+        assert.equal(k.removeAllHandlers('color'), handler);
+      });
+    });
+
     describe('#getDefaultFor', function() {
       it('should return the default value for an attribute by name', function() {
         k.setAttr('power', 100);
