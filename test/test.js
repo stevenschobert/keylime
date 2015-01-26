@@ -364,14 +364,14 @@
         var handler = function() {};
         k.setAttr('color', 'blue', { handlers: handler });
         k.removeHandler('color', handler);
-        assert.equal(k.attributes.color.handlers, null);
+        assert.deepEqual(k.attributes.color.handlers, null);
       });
 
       it('should set the handlers to null if no more values in array', function() {
         var handler = function() {};
         k.setAttr('color', 'blue', { handlers: [handler] });
         k.removeHandler('color', handler);
-        assert.equal(k.attributes.color.handlers, null);
+        assert.deepEqual(k.attributes.color.handlers, null);
       });
 
       it('should remove all occurances of the handler from the array', function() {
@@ -416,7 +416,7 @@
       it('should set the handlers of an attribute to null', function() {
         k.setAttr('color', 'blue', { handlers: function() {} });
         k.removeAllHandlers('color');
-        assert.equal(k.attributes.color.handlers, null);
+        assert.deepEqual(k.attributes.color.handlers, null);
       });
 
       it('should return the handlers that were removed', function() {
