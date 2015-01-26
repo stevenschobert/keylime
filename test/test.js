@@ -309,6 +309,10 @@
         k.setAttr('power', 100, { extended: true });
         assert.equal(k.attributes.power.cloneDeep);
       });
+
+      it('should return the instance', function() {
+        assert.equal(k.setAttr('color'), k);
+      });
     });
 
     describe('#getAttr', function() {
