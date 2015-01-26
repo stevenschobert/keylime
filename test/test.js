@@ -543,5 +543,21 @@
         assert.equal(capture, 1);
       });
     });
+
+    describe('#on', function() {
+      describe('attr', function() {
+        it('should return the same constructor for chaining', function() {
+          k.attr('name');
+          assert.equal(k.on('attr:name', function() {}), k);
+        });
+
+        it('should add a handler to an attribute on the descriptor', function() {
+          var handler = function() {};
+          k.attr('name');
+          k.on('attr:name', handler);
+          assert.equal(k.descriptor.attributes.name.handlers, handler);
+        });
+      });
+    });
   });
 }());
