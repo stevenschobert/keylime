@@ -465,6 +465,11 @@
         assert.equal(k.descriptor.attributes.power.copyMode, 'deep');
       });
 
+      it('should set the default \'handlers\' to null', function() {
+        k.attr('power', 100);
+        assert.deepEqual(k.descriptor.attributes.power.handlers, null);
+      });
+
       it('should return the same constructor for chaining', function() {
         assert.equal(k.attr('test'), k);
       });
