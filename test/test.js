@@ -684,6 +684,13 @@
           k.on('attr:name', handler);
           assert.equal(k.descriptor.attributes.name.handlers, handler);
         });
+
+        it('should allow setting the attribute through a second parameter', function() {
+          var handler = function() {};
+          k.attr('name');
+          k.on('attr', 'name', handler);
+          assert.equal(k.descriptor.attributes.name.handlers, handler);
+        });
       });
     });
   });
