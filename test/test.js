@@ -659,6 +659,19 @@
     });
 
     describe('#on', function() {
+      describe('init', function() {
+        it('should return the same constructor for chaining', function() {
+          k.attr('name');
+          assert.equal(k.on('attr:name', function() {}), k);
+        });
+
+        it('should add the handler to the descriptors initializers', function() {
+          var handler = function() {};
+          k.on('init', handler);
+          assert.equal(k.descriptor.initializers, handler);
+        });
+      });
+
       describe('attr', function() {
         it('should return the same constructor for chaining', function() {
           k.attr('name');
