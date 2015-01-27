@@ -74,12 +74,30 @@ suite('creating instances with \'new\'', function() {
   });
 });
 
+suite('init handlers', function() {
+  var Post1 = keylime('Post').attr('attr1', 'value1').on('init', function() {});
+  var Post3 = keylime('Post').attr('attr1', 'value1').on('init', function() {}).on('init', function() {}).on('init', function() {});
+  var Post5 = keylime('Post').attr('attr1', 'value1').on('init', function() {}).on('init', function() {}).on('init', function() {}).on('init', function() {}).on('init', function() {});
+
+  bench('1 handlers', function() {
+    new Post1();
+  });
+
+  bench('3 handlers', function() {
+    new Post3();
+  });
+
+  bench('5 handlers', function() {
+    new Post5();
+  });
+});
+
 suite('attribute handlers', function() {
   var Post1 = keylime('Post').attr('attr1', 'value1', {handlers: function() { return 1;} });
   var Post3 = keylime('Post').attr('attr1', 'value1', {handlers: [function() { return 1;}, function(value) { return ++value; }, function(value) { return ++value; }]});
   var Post5 = keylime('Post').attr('attr1', 'value1', {handlers: [function() { return 1;}, function(value) { return ++value; }, function(value) { return ++value; }, function(value) { return ++value; }, function(value) { return ++value; }]});
 
-  bench('0 handlers', function() {
+  bench('1 handlers', function() {
     new Post1();
   });
 
