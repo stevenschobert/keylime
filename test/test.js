@@ -675,21 +675,58 @@
       describe('attr', function() {
         it('should return the same constructor for chaining', function() {
           k.attr('name');
-          assert.equal(k.on('attr:name', function() {}), k);
+          assert.equal(k.on('attr', 'name', function() {}), k);
         });
 
-        it('should add a handler to an attribute on the descriptor', function() {
-          var handler = function() {};
-          k.attr('name');
-          k.on('attr:name', handler);
-          assert.equal(k.descriptor.attributes.name.handlers, handler);
-        });
-
-        it('should allow setting the attribute through a second parameter', function() {
+        it('should set an attribute handler', function() {
           var handler = function() {};
           k.attr('name');
           k.on('attr', 'name', handler);
           assert.equal(k.descriptor.attributes.name.handlers, handler);
+        });
+      });
+    });
+
+    describe('#off', function() {
+      describe('attr', function() {
+        it('should remove a specific attribute handler', function() {
+          var handler1 = function() {};
+          var handler2 = function() {};
+          k.attr('name').on('attr', 'name', handler1).on('attr', 'name', handler2);
+          k.off('attr', 'name', handler2);
+          assert.deepEqual(k.descriptor.attributes.name.handlers, [handler1]);
+        });
+      });
+
+      describe('init', function() {
+        it('should remove a specific handler from the initializers', function() {
+          var handler1 = function() {};
+          var handler2 = function() {};
+          k.on('init', handler1).on('init', handler2);
+          k.off('init', handler2);
+          assert.deepEqual(k.descriptor.initializers, [handler1]);
+        });
+      });
+    });
+
+    describe('#offAny', function() {
+      describe('attr', function() {
+        it('should remove all attribute handlers', function() {
+          var handler1 = function() {};
+          var handler2 = function() {};
+          k.attr('name').on('attr', 'name', handler1).on('attr', 'name', handler2);
+          k.offAny('attr', 'name');
+          assert.deepEqual(k.descriptor.attributes.name.handlers, null);
+        });
+      });
+
+      describe('init', function() {
+        it('should remove all handlers from the initializers', function() {
+          var handler1 = function() {};
+          var handler2 = function() {};
+          k.on('init', handler1).on('init', handler2);
+          k.offAny('init');
+          assert.deepEqual(k.descriptor.initializers, null);
         });
       });
     });
