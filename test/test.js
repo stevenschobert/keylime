@@ -287,6 +287,31 @@
           power: 100
         });
       });
+
+      it('should invoke the initializer function', function() {
+        var called = 0;
+        var handler = function() {++called;};
+        k.initializers = handler;
+        k.init({});
+        assert.equal(called, 1);
+      });
+
+      it('should invoke multiple initializers', function() {
+        var called = 0;
+        var handler = function() {++called;};
+        k.initializers = [handler, handler];
+        k.init({});
+        assert.equal(called, 2);
+      });
+
+      it('should pass the target to the initializer', function() {
+        var target = {};
+        var capture = null;
+        var handler = function(ref) { capture = ref; };
+        k.initializers = handler;
+        k.init(target);
+        assert.equal(capture, target);
+      });
     });
 
     describe('#setAttr', function() {
@@ -323,6 +348,90 @@
           hex: '00f',
           defaultValue: 'blue'
         });
+      });
+    });
+
+    describe('#addInitHandler', function() {
+      it('should return the instance', function() {
+        assert.equal(k.addInitHandler(function() {}), k);
+      });
+
+      it('should set the \'initializers\' property to the handler', function() {
+        var handler = function() {};
+        k.addInitHandler(handler);
+        assert.equal(k.initializers, handler);
+      });
+
+      it('should convert the \'initializers\' to an array if already set', function() {
+        k.initializers = function() {};
+        k.addInitHandler(function() {});
+        assert.equal(Object.prototype.toString.call(k.initializers), '[object Array]');
+      });
+
+      it('should append the handler to the end of the initializers array', function() {
+        var handler = function() {};
+        k.initializers = [function() {}];
+        k.addInitHandler(handler);
+        assert.equal(k.initializers[1], handler);
+      });
+    });
+
+    describe('#removeInitHandler', function() {
+      it('should set the \'initializers\' property to null if handler matches', function() {
+        var handler = function() {};
+        k.initializers = handler;
+        k.removeInitHandler(handler);
+        assert.deepEqual(k.initializers, null);
+      });
+
+      it('should not effect the \'initializers\' property if the handler doesn\'t match', function() {
+        var handler1 = function() {};
+        var handler2 = function() {};
+        k.initializers = handler1;
+        k.removeInitHandler(handler2);
+        assert.equal(k.initializers, handler1);
+      });
+
+      it('should remove all occurances of the handler from the array', function() {
+        var handler1 = function() {};
+        var handler2 = function() {};
+        k.initializers = [handler1, handler2, handler1];
+        k.removeInitHandler(handler1);
+        assert.deepEqual(k.initializers, [handler2]);
+      });
+
+      it('should set the \'initializers\' to null if no more matches are in the array', function() {
+        var handler1 = function() {};
+        var handler2 = function() {};
+        k.initializers = [handler1, handler1];
+        k.removeInitHandler(handler1);
+        assert.deepEqual(k.initializers, null);
+      });
+
+      it('should return true if removed', function() {
+        var handler = function() {};
+        k.initializers = handler;
+        assert.equal(k.removeInitHandler(handler), true);
+      });
+
+      it('should return false if not removed', function() {
+        var handler = function() {};
+        k.initializers = function() {};
+        assert.equal(k.removeInitHandler(handler), false);
+      });
+    });
+
+    describe('#removeAllInitHandlers', function() {
+      it('should set the initializers to null', function() {
+        k.initializers = function() {};
+        k.removeAllInitHandlers();
+        assert.deepEqual(k.initializers, null);
+      });
+
+      it('should return the handlers that were removed', function() {
+        var handler = function() {};
+        k.initializers = handler;
+        assert.equal(k.removeAllInitHandlers(), handler);
       });
     });
 
