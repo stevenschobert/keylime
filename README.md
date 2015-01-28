@@ -1,12 +1,12 @@
 <img alt="keylime.js"
-src="https://cloud.githubusercontent.com/assets/896486/5949323/04e5dfa0-a712-11e4-8192-b2d7644a6f6b.png" height="93" width="400" />
+src="https://cloud.githubusercontent.com/assets/896486/5949380/babf0f68-a712-11e4-80f3-e4edd8cb4fdc.png" height="93" width="342" />
 
-Keylime.js
+Keylime
 ==========
 
-> A delicious way to write prototype objects in JavaScript.
+> A delicious way to build prototype objects in JavaScript.
 
-Keylime.js is library for creating and composing object behavior in JavaScript. Keylime lets you
+Keylime is library for creating and composing object behavior in JavaScript. Keylime lets you
 define the "attributes" and "methods" your object should have, and allows you to abstract away
 more complicated logic into easy-to-reuse modules.
 
@@ -72,13 +72,13 @@ In the browser:
 <script src="keylime.min.js"></script>
 ```
 
-In Node.js:
+In Node:
 
 ```js
 var keylime = require('keylime');
 ```
 
-Using AMD/Require.js:
+Using AMD/Require:
 
 ```js
 require([keylime], function(keylime) {
