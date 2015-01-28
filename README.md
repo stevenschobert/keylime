@@ -1,4 +1,5 @@
-<img alt="keylime.js" src="http://d.pr/i/1hWic+" height="93" width="400" />
+<img alt="keylime.js"
+src="https://cloud.githubusercontent.com/assets/896486/5949323/04e5dfa0-a712-11e4-8192-b2d7644a6f6b.png" height="93" width="400" />
 
 Keylime.js
 ==========
@@ -313,4 +314,5 @@ yoda.id; //=> 'yoda_2015-01-28T21:46:15.574Z'
 Brought to you by [@stevenschobert](https://twitter.com/stevenschobert) and
 [@ovenbits](https://twitter.com/ovenbits).<br />Logo by the awesome [@ronniecjohnson](https://twitter.com/ronniecjohnson).
 
-<a href="http://ovenbits.com"><img alt="Oven Bits" src="http://d.pr/i/GC4Z+" width="250" height="250" /></a>
+<a href="http://ovenbits.com"><img alt="Oven Bits"
+src="https://cloud.githubusercontent.com/assets/896486/5949314/f891fa9a-a711-11e4-89d5-20c73b80aa35.png" width="200" height="200" /></a>
