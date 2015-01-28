@@ -273,7 +273,7 @@ yoda.name = 'Yoda';
 yoda.isValid();      //=> true
 ```
 
-## Hooking into object creation cycle
+## Hooking into the object creation cycle
 
 Keylime allows you to hook into object creating through handler functions, similary to handling
 events in jQuery.
