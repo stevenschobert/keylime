@@ -33,6 +33,13 @@
         assert.equal(func.name, 'Stormtrooper');
       });
 
+      it('should not allow calling without \'new\' keyword', function() {
+        var func = keylime.core.createNamedConstructor('Stormtrooper');
+        assert.throws(function() {
+          func();
+        }, /new|create/);
+      });
+
       it('should call keylime.init when run', function() {
         var Func = keylime.core.createNamedConstructor('Stormtrooper');
         var called = 0;
