@@ -12,10 +12,10 @@ more complicated logic into easy-to-reuse modules.
 
 ## Features
 
-- Clean, chainable syntax.
+- Declarative, chainable syntax.
 - Easily define attributes and methods.
 - Create mixins to share behaviour between your objects.
-- Use helpers to extend Keylime's syntax.
+- Use extensions to customize Keylime's syntax.
 - Great browser support (IE8 and up).
 - Leightweight (~9kb minified). Zero dependencies.
 
@@ -237,16 +237,16 @@ damage are managed, create a `healthpoint` mixin, and include that in your const
 
 Mixins can be used to wrap other libraries, create database adapters, etc.
 
-## Extending Keylime syntax
+## Extending Keylime
 
-Keylime allows you to extend the chaining syntax with your own functionality. A Keylime extension
+Keylime allows you to extend the syntax with your own functionality. A Keylime extension
 looks identical to a mixin.
 
-Extensions are useful for wrapping other plugins, or providing new ways to describe constructor
+Extensions are useful for wrapping other libraries, or providing new ways to describe constructor
 functionality. For example, here is an extension wrapping [validate.js](http://validatejs.org):
 
 ```js
-keylime.registerHelper('validate', function validate(model, constraints) {
+keylime.registerExtension('validate', function validate(model, constraints) {
   model.constraints = constraints;
 
   model
@@ -273,7 +273,7 @@ yoda.name = 'Yoda';
 yoda.isValid();      //=> true
 ```
 
-## Hooking into the object creation cycle
+## Hooking into object creation
 
 Keylime allows you to hook into object creating through handler functions, similary to handling
 events in jQuery.
