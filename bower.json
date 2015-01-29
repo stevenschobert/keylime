@@ -6,7 +6,7 @@
     "Steven Schobert <spschobert@gmail.com>"
   ],
   "description": "A delicious way to build prototype objects in JavaScript",
-  "main": "lib/keylime.js",
+  "main": "dist/keylime.min.js",
   "moduleType": [
     "amd",
     "globals",
