@@ -7,7 +7,7 @@ Keylime
 > A delicious way to build prototype objects in JavaScript.
 
 Keylime is library for creating and composing object behavior in JavaScript. Keylime lets you
-define the "attributes" and "methods" your object should have, and allows you to abstract away
+define the "attributes" and "methods" your object should have, and helps you to abstract away
 more complicated logic into easy-to-reuse modules.
 
 ## Features
