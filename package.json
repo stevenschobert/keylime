@@ -1,7 +1,7 @@
 {
   "name": "keylime",
-  "version": "0.4.1",
-  "description": "A delicious way to write prototypal classes in JavaScript.",
+  "version": "1.0.0",
+  "description": "A delicious way to build prototype objects in JavaScript.",
   "main": "lib/keylime.js",
   "scripts": {
     "test": "./node_modules/.bin/jshint --reporter ./node_modules/jshint-stylish/stylish.js lib/** test/** && ./node_modules/.bin/mocha -R spec test/**",
@@ -12,8 +12,8 @@
     "type": "git",
     "url": "git://github.com/ovenbits/keylime.git"
   },
-  "author": "Steven Schobert <steven.schobert@ovenbits.com>",
-  "license": "none",
+  "author": "Steven Schobert <spschobert@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ovenbits/keylime/issues"
   },
