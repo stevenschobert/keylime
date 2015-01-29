@@ -1,5 +1,5 @@
 <img alt="keylime.js"
-src="https://cloud.githubusercontent.com/assets/896486/5949380/babf0f68-a712-11e4-80f3-e4edd8cb4fdc.png" height="93" width="342" />
+src="https://cloud.githubusercontent.com/assets/896486/5949380/babf0f68-a712-11e4-80f3-e4edd8cb4fdc.png" width="342px" />
 
 Keylime
 ==========
@@ -315,4 +315,4 @@ Brought to you by [@stevenschobert](https://twitter.com/stevenschobert) and
 [@ovenbits](https://twitter.com/ovenbits).<br />Logo by the awesome [@ronniecjohnson](https://twitter.com/ronniecjohnson).
 
 <a href="http://ovenbits.com"><img alt="Oven Bits"
-src="https://cloud.githubusercontent.com/assets/896486/5949314/f891fa9a-a711-11e4-89d5-20c73b80aa35.png" width="200" height="200" /></a>
+src="https://cloud.githubusercontent.com/assets/896486/5949314/f891fa9a-a711-11e4-89d5-20c73b80aa35.png" width="150">
