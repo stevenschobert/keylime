@@ -64,6 +64,12 @@ Using npm:
 npm install --save keylime
 ```
 
+Using bower:
+
+```sh
+bower install keylime
+```
+
 ## Installation
 
 In the browser:

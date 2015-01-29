@@ -1,0 +1,29 @@
+{
+  "name": "keylime",
+  "version": "1.0.0",
+  "homepage": "https://github.com/ovenbits/keylime",
+  "authors": [
+    "Steven Schobert <spschobert@gmail.com>"
+  ],
+  "description": "A delicious way to build prototype objects in JavaScript",
+  "main": "lib/keylime.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "objects",
+    "prototypes",
+    "composition",
+    "mixins"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
