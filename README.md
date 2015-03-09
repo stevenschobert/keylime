@@ -299,8 +299,7 @@ Jedi.on('init', function(instance) {
 Since Keylime waits for all handler functions to finish before returning new instances, it provides
 a special API you should use if you need to modify specific attributes.
 
-This prevents you from having to doing having to loop through attributes in multiple handlers to
-update values.
+This prevents you from having to loop through attributes in multiple handlers to update values.
 
 ```js
 Jedi.on('attr', 'id', function appendTime(idValue) {
