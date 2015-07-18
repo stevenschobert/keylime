@@ -44,7 +44,7 @@ var Jedi = keylime('Jedi')
 
 ## Download
 
-Using the browser:
+Using in the browser:
 
 - **[Browser/AMD version](dist/keylime.min.js)** (~9kb minified)
 
