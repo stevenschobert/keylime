@@ -1,11 +1,11 @@
 {
   "name": "keylime",
   "version": "1.0.0",
-  "homepage": "https://github.com/ovenbits/keylime",
+  "homepage": "https://github.com/stevenschobert/keylime",
   "authors": [
     "Steven Schobert <spschobert@gmail.com>"
   ],
-  "description": "A delicious way to build prototype objects in JavaScript",
+  "description": "A delicious way to work with prototypes in JavaScript.",
   "main": "dist/keylime.min.js",
   "moduleType": [
     "amd",
