@@ -57,7 +57,7 @@ npm install --save keylime
 Using bower:
 
 ```sh
-bower install --save keylime
+bower install --save keylimejs
 ```
 
 ## Installation
