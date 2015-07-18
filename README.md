@@ -4,24 +4,25 @@ src="https://cloud.githubusercontent.com/assets/896486/5949380/babf0f68-a712-11e
 Keylime
 ==========
 
-> A delicious way to build prototype objects in JavaScript.
+> A delicious way to work with prototypes in JavaScript.
 
-Keylime is library for creating and composing object behavior in JavaScript. Keylime lets you
-define the "attributes" and "methods" your object should have, and helps you to abstract away
-more complicated logic into easy-to-reuse modules.
-
-## Features
-
-- Declarative, chainable syntax.
-- Easily define attributes and methods.
-- Create mixins to share behaviour between your objects.
-- Use extensions to customize Keylime's syntax.
-- Great browser support (IE8 and up).
-- Leightweight (~9kb minified). Zero dependencies.
-
-## Example
+Keylime is small library for working with prototype objects in JavaScript.
+It provides some syntax sugar for defining your prototype's properties & methods,
+and APIs for sharing behavior between your prototypes through mixins.
 
 ```js
+// Keylime lets you turn this:
+function Jedi(options) {
+  this.name = options.name;
+  this.side = options.side || 'light';
+  this.powers = option.powers || ['push', 'jump'];
+  this.createdAt = options.createdAt || Date.now();
+}
+Jedi.prototype.meditate = function meditate() {
+  return this.name + ' is meditating...';
+}
+
+// ... into this:
 var Jedi = keylime('Jedi')
   .attr('name')
   .attr('side', 'light')
@@ -30,27 +31,16 @@ var Jedi = keylime('Jedi')
   .method('meditate', function meditate() {
     return this.name + ' is meditating...';
   });
-
-var yoda = new Jedi({
-  name: 'Yoda'
-});
-
-yoda.side;         //=> light
-yoda.createdAt;    //=> 1409683731413
-yoda.meditate();   //=> 'yoda is meditating'
 ```
 
-## Why?
+## Features
 
-[Prototype inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain),
-despite being awesome, is often confusing and/or misunderstood by people who are more familiar with
-classical object-oriented patterns. This is clearly evidenced by the `class` keyword being added in
-ES6, to make prototypes more familiar for people who know classical inheritance models.
-
-Keylime is an effort to do the same thing. It provides a friendly interface to creating [constructor
-functions](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#constructorpatternjavascript).
-In addition, Keylime also tries to solve the problem of how logic is shared between different
-prototypes and their constructor functions.
+- Declarative, chainable syntax.
+- Easily define attributes and methods.
+- Create [mixins](#mixins) to share behaviour between your objects.
+- Use [extensions](#extending-keylime) to customize Keylime's syntax.
+- Great browser support (IE8 and up).
+- Leightweight (~9kb minified). Zero dependencies.
 
 ## Download
 
@@ -316,8 +306,4 @@ yoda.id; //=> 'yoda_2015-01-28T21:46:15.574Z'
 
 ## Credits
 
-Brought to you by [@stevenschobert](https://twitter.com/stevenschobert) and
-[@ovenbits](https://twitter.com/ovenbits).<br />Logo by the awesome [@ronniecjohnson](https://twitter.com/ronniecjohnson).
-
-<a href="http://ovenbits.com"><img alt="Oven Bits"
-src="https://cloud.githubusercontent.com/assets/896486/5949314/f891fa9a-a711-11e4-89d5-20c73b80aa35.png" width="150">
+Logo by the awesome [@ronniecjohnson](https://twitter.com/ronniecjohnson).
